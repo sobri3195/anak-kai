@@ -35,7 +35,7 @@ function getUmur() {  return $("#age").val(); }
 function getLength() {  return $("#tb").val(); }
 function getWeight() {  return $("#bb").val(); }
 function getHc() {  return 50; }
-function Gender() { return $("#gender").val(); }
+function Gender() { return $("input[name='gender']:checked").val(); }
 
 function buildSdLabel(sd) {
   return sd > 0 ? "+" + sd : sd.toString();
@@ -200,15 +200,14 @@ function interpret() {
 
 $(document).ready(function() {
   domReady = true;
-  for(var i = 0;i <= 24;++i) {
+  for(var i = 0;i <= 60;++i) {
     $("#age").append( $("<option>").attr("value",i)
                       .text(i.toString() + " bulan") );
   }
-  $("#but").click(function() {
-    if (dataReady) {
-      interpret();
-    }
-  });
+  // Add 60+ option
+  $("#age").append( $("<option>").attr("value",60)
+                    .text("60+ bulan") );
+  
   if (dataReady) {
     interpret();
   }
