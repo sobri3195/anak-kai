@@ -1,0 +1,151 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 👶
+        - heading "Anak-kai" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Clinical tools offline, berjalan penuh di browser
+    - generic [ref=e9]:
+      - paragraph [ref=e10]: Modul Klinis
+      - link "📊 Analisa Grafik Pertumbuhan (WHO)" [ref=e11] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: 📊
+        - generic [ref=e13]: Analisa Grafik Pertumbuhan (WHO)
+      - link "🧩 Skrining Perkembangan (KPSP/ASQ)" [ref=e14] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e15]: 🧩
+        - generic [ref=e16]: Skrining Perkembangan (KPSP/ASQ)
+      - link "🩸 Skrining Anemia (Hb)" [ref=e17] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e18]: 🩸
+        - generic [ref=e19]: Skrining Anemia (Hb)
+      - link "💊 Kalkulator Dosis Obat Anak" [ref=e20] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e21]: 💊
+        - generic [ref=e22]: Kalkulator Dosis Obat Anak
+      - link "💧 Skrining Dehidrasi & Diare" [ref=e23] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e24]: 💧
+        - generic [ref=e25]: Skrining Dehidrasi & Diare
+      - link "💉 Imunisasi" [ref=e26] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e27]: 💉
+        - generic [ref=e28]: Imunisasi
+      - link "🌡️ Kalkulator Status Demam" [ref=e29] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e30]: 🌡️
+        - generic [ref=e31]: Kalkulator Status Demam
+      - link "⚖️ BMI & Risiko Metabolik" [ref=e32] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e33]: ⚖️
+        - generic [ref=e34]: BMI & Risiko Metabolik
+      - link "🧪 Cairan Maintenance (Holliday–Segar)" [ref=e35] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e36]: 🧪
+        - generic [ref=e37]: Cairan Maintenance (Holliday–Segar)
+      - link "⚠️ Skor Risiko (Rule-based)" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⚠️
+        - generic [ref=e40]: Skor Risiko (Rule-based)
+      - link "📄 Generator Edukasi Pasien (PDF)" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: 📄
+        - generic [ref=e43]: Generator Edukasi Pasien (PDF)
+  - main [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - heading "Analisa Grafik Pertumbuhan (WHO)" [level=2] [ref=e48]
+          - paragraph [ref=e49]: Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - generic [ref=e52]: Jenis Kelamin
+            - generic [ref=e53]:
+              - generic [ref=e54]:
+                - radio "Laki-laki" [checked]
+                - generic [ref=e55] [cursor=pointer]: Laki-laki
+              - generic [ref=e56]:
+                - radio "Perempuan"
+                - generic [ref=e57] [cursor=pointer]: Perempuan
+          - generic [ref=e58]:
+            - generic [ref=e59]: Umur (bulan)
+            - combobox "Umur (bulan)" [ref=e60]:
+              - option "0 bulan" [selected]
+              - option "1 bulan"
+              - option "2 bulan"
+              - option "3 bulan"
+              - option "4 bulan"
+              - option "5 bulan"
+              - option "6 bulan"
+              - option "7 bulan"
+              - option "8 bulan"
+              - option "9 bulan"
+              - option "10 bulan"
+              - option "11 bulan"
+              - option "12 bulan"
+              - option "13 bulan"
+              - option "14 bulan"
+              - option "15 bulan"
+              - option "16 bulan"
+              - option "17 bulan"
+              - option "18 bulan"
+              - option "19 bulan"
+              - option "20 bulan"
+              - option "21 bulan"
+              - option "22 bulan"
+              - option "23 bulan"
+              - option "24 bulan"
+              - option "25 bulan"
+              - option "26 bulan"
+              - option "27 bulan"
+              - option "28 bulan"
+              - option "29 bulan"
+              - option "30 bulan"
+              - option "31 bulan"
+              - option "32 bulan"
+              - option "33 bulan"
+              - option "34 bulan"
+              - option "35 bulan"
+              - option "36 bulan"
+              - option "37 bulan"
+              - option "38 bulan"
+              - option "39 bulan"
+              - option "40 bulan"
+              - option "41 bulan"
+              - option "42 bulan"
+              - option "43 bulan"
+              - option "44 bulan"
+              - option "45 bulan"
+              - option "46 bulan"
+              - option "47 bulan"
+              - option "48 bulan"
+              - option "49 bulan"
+              - option "50 bulan"
+              - option "51 bulan"
+              - option "52 bulan"
+              - option "53 bulan"
+              - option "54 bulan"
+              - option "55 bulan"
+              - option "56 bulan"
+              - option "57 bulan"
+              - option "58 bulan"
+              - option "59 bulan"
+              - option "60 bulan"
+              - option "60+ bulan"
+          - generic [ref=e61]:
+            - generic [ref=e62]: Berat badan (kg)
+            - spinbutton "Berat badan (kg)" [ref=e63]
+          - generic [ref=e64]:
+            - generic [ref=e65]: Tinggi/Panjang badan (cm)
+            - spinbutton "Tinggi/Panjang badan (cm)" [ref=e66]
+          - generic [ref=e69]: Panjang badan (telentang)
+        - generic [ref=e71]:
+          - button "Hitung Analisa" [ref=e72] [cursor=pointer]
+          - paragraph [ref=e73]: Grafik memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.
+      - generic [ref=e74]:
+        - heading "Ringkasan Analisa" [level=2] [ref=e75]
+        - paragraph [ref=e76]: Masukkan data untuk melihat ringkasan hasil.
+      - generic [ref=e77]:
+        - heading "Panjang/Tinggi Badan terhadap Umur" [level=4] [ref=e79]
+        - heading "Berat Badan terhadap Umur" [level=4] [ref=e83]
+        - heading "Berat Badan terhadap Panjang/Tinggi" [level=4] [ref=e87]

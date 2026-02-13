@@ -16,8 +16,39 @@ function SD_status(x) {
   return dict[x];
 }
 
+function get_closest_wfl_key(length) {
+  // wfl data has keys like "45", "45.5", "46", etc.
+  // Find the closest key to the given length
+  var keys = Object.keys(data.boys.wfl).map(parseFloat).sort(function(a, b) { return a - b; });
+  
+  // Find closest key
+  var closest = keys[0];
+  var minDiff = Math.abs(length - closest);
+  
+  for (var i = 1; i < keys.length; i++) {
+    var diff = Math.abs(length - keys[i]);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closest = keys[i];
+    }
+  }
+  
+  return closest.toString();
+}
+
 function get_prop(gender, v2, v1, value) {
+  // For wfl, convert length to the correct key format
+  if (v1 === "wfl" && !isNaN(parseFloat(v2))) {
+    v2 = get_closest_wfl_key(parseFloat(v2));
+  }
+  
   var arr = data[gender][v1][v2];
+
+  // Check if arr exists
+  if (!arr) {
+    console.error("Data not found for:", gender, v1, v2);
+    return [0, SD_status(0)];
+  }
 
   // set ub as upper bound di SD (nilai terkecil yang lebih besar dari value)
   var ub = 0
@@ -82,6 +113,12 @@ function interpret() {
       weight = parseFloat(getWeight()),
       hc = getHc(),
       gender = Gender();
+
+  // Validate inputs before proceeding
+  if (isNaN(umur) || isNaN(length) || isNaN(weight) || !gender) {
+    // Don't process if data is not valid
+    return;
+  }
 
   var results = [];
 
@@ -160,7 +197,7 @@ function interpret() {
    * below -2 = wasted
    * below -3 = severely wasted
    */
-  s = get_prop(gender, (length-40)*2, "wfl", weight);
+  s = get_prop(gender, length, "wfl", weight);
   sd = s[1], idx = s[0];
   var wfl_d = ["Gizi kurang", "Gizi rendah", "Normal", "Normal", "Normal", "Resiko Overweight", "Overweight", "Obese"];
   status = wfl_d[idx];

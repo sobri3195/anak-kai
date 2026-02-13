@@ -1,0 +1,158 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 👶
+        - heading "Anak-kai" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Clinical tools offline, berjalan penuh di browser
+    - generic [ref=e9]:
+      - paragraph [ref=e10]: Modul Klinis
+      - link "📊 Analisa Grafik Pertumbuhan (WHO)" [ref=e11] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: 📊
+        - generic [ref=e13]: Analisa Grafik Pertumbuhan (WHO)
+      - link "🧩 Skrining Perkembangan (KPSP/ASQ)" [ref=e14] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e15]: 🧩
+        - generic [ref=e16]: Skrining Perkembangan (KPSP/ASQ)
+      - link "🩸 Skrining Anemia (Hb)" [active] [ref=e17] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e18]: 🩸
+        - generic [ref=e19]: Skrining Anemia (Hb)
+      - link "💊 Kalkulator Dosis Obat Anak" [ref=e20] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e21]: 💊
+        - generic [ref=e22]: Kalkulator Dosis Obat Anak
+      - link "💧 Skrining Dehidrasi & Diare" [ref=e23] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e24]: 💧
+        - generic [ref=e25]: Skrining Dehidrasi & Diare
+      - link "💉 Imunisasi" [ref=e26] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e27]: 💉
+        - generic [ref=e28]: Imunisasi
+      - link "🌡️ Kalkulator Status Demam" [ref=e29] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e30]: 🌡️
+        - generic [ref=e31]: Kalkulator Status Demam
+      - link "⚖️ BMI & Risiko Metabolik" [ref=e32] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e33]: ⚖️
+        - generic [ref=e34]: BMI & Risiko Metabolik
+      - link "🧪 Cairan Maintenance (Holliday–Segar)" [ref=e35] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e36]: 🧪
+        - generic [ref=e37]: Cairan Maintenance (Holliday–Segar)
+      - link "⚠️ Skor Risiko (Rule-based)" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⚠️
+        - generic [ref=e40]: Skor Risiko (Rule-based)
+      - link "📄 Generator Edukasi Pasien (PDF)" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: 📄
+        - generic [ref=e43]: Generator Edukasi Pasien (PDF)
+  - main [ref=e44]:
+    - generic [ref=e145]:
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - heading "Skrining Anemia (Hb)" [level=2] [ref=e148]
+          - paragraph [ref=e149]: Klasifikasi anemia berdasarkan kadar Hb dan kalkulator dosis suplementasi zat besi untuk anak.
+        - generic [ref=e150]:
+          - generic [ref=e151]:
+            - generic [ref=e152]: Umur (bulan)
+            - combobox "Umur (bulan)" [ref=e153]:
+              - option "Pilih umur" [selected]
+              - option "6 bulan"
+              - option "7 bulan"
+              - option "8 bulan"
+              - option "9 bulan"
+              - option "10 bulan"
+              - option "11 bulan"
+              - option "12 bulan"
+              - option "13 bulan"
+              - option "14 bulan"
+              - option "15 bulan"
+              - option "16 bulan"
+              - option "17 bulan"
+              - option "18 bulan"
+              - option "19 bulan"
+              - option "20 bulan"
+              - option "21 bulan"
+              - option "22 bulan"
+              - option "23 bulan"
+              - option "24 bulan"
+              - option "25 bulan"
+              - option "26 bulan"
+              - option "27 bulan"
+              - option "28 bulan"
+              - option "29 bulan"
+              - option "30 bulan"
+              - option "31 bulan"
+              - option "32 bulan"
+              - option "33 bulan"
+              - option "34 bulan"
+              - option "35 bulan"
+              - option "36 bulan"
+              - option "37 bulan"
+              - option "38 bulan"
+              - option "39 bulan"
+              - option "40 bulan"
+              - option "41 bulan"
+              - option "42 bulan"
+              - option "43 bulan"
+              - option "44 bulan"
+              - option "45 bulan"
+              - option "46 bulan"
+              - option "47 bulan"
+              - option "48 bulan"
+              - option "49 bulan"
+              - option "50 bulan"
+              - option "51 bulan"
+              - option "52 bulan"
+              - option "53 bulan"
+              - option "54 bulan"
+              - option "55 bulan"
+              - option "56 bulan"
+              - option "57 bulan"
+              - option "58 bulan"
+              - option "59 bulan"
+          - generic [ref=e154]:
+            - generic [ref=e155]: Berat badan (kg)
+            - spinbutton "Berat badan (kg)" [ref=e156]
+          - generic [ref=e157]:
+            - generic [ref=e158]: Kadar Hb (g/dL)
+            - spinbutton "Kadar Hb (g/dL)" [ref=e159]
+          - generic [ref=e162]: Hitung dosis Fe (opsional)
+        - generic [ref=e164]:
+          - button "Analisis Anemia" [ref=e165]
+          - paragraph [ref=e166]: Threshold Hb berdasarkan standar WHO untuk anak 6-59 bulan.
+      - generic [ref=e167]:
+        - heading "Hasil Skrining Anemia" [level=2] [ref=e168]
+        - paragraph [ref=e169]: Masukkan data untuk melihat klasifikasi anemia.
+      - generic [ref=e170]:
+        - heading "ℹ️ Panduan Skrining Anemia" [level=4] [ref=e171]
+        - list [ref=e172]:
+          - listitem [ref=e173]:
+            - strong [ref=e174]: "Klasifikasi WHO (6-59 bulan):"
+            - list [ref=e175]:
+              - listitem [ref=e176]:
+                - strong [ref=e177]: "Normal:"
+                - text: Hb ≥ 11.0-11.5 g/dL (selon umur)
+              - listitem [ref=e178]:
+                - strong [ref=e179]: "Anemia ringan:"
+                - text: Hb 10.0-10.9 g/dL
+              - listitem [ref=e180]:
+                - strong [ref=e181]: "Anemia sedang:"
+                - text: Hb 7.0-9.9 g/dL
+              - listitem [ref=e182]:
+                - strong [ref=e183]: "Anemia berat:"
+                - text: Hb < 7.0 g/dL
+          - listitem [ref=e184]:
+            - strong [ref=e185]: "Suplementasi zat besi:"
+            - text: 3 mg/kg/hari untuk terapi, 1 mg/kg/hari untuk pencegahan
+          - listitem [ref=e186]:
+            - strong [ref=e187]: "Makanan tinggi zat besi:"
+            - text: Daging merah, hati, ikan, sayuran hijau, kacang-kacangan
+          - listitem [ref=e188]:
+            - strong [ref=e189]: "Asupan enhancers:"
+            - text: Vitamin C (jeruk, tomat) meningkatkan penyerapan zat besi
