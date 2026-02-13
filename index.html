@@ -1,337 +1,588 @@
-<html>
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" href="favicon.svg" type="image/svg+xml">
-      <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
-      <script src="canvas.js"></script>
-      <script type="text/javascript" src="main.js"></script>
-      <title>Grafik Pertumbuhan Anak</title>
-      <style>
-        * {
-          box-sizing: border-box;
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        }
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
+  <script src="canvas.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  <title>Anak-kai | Clinical Tools Offline</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        body {
-          margin: 0;
-          background: #f5f7fb;
-          color: #1f2937;
-        }
+    :root {
+      --sidebar-width: 320px;
+      --sidebar-min: 280px;
+      --sidebar-max: 360px;
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg-light: #f1f5f9;
+      --bg-sidebar: #0f172a;
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --card-bg: #ffffff;
+    }
 
-        .app {
-          display: flex;
-          min-height: 100vh;
-        }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-light);
+      color: #1e293b;
+      min-height: 100vh;
+    }
 
-        .sidebar {
-          width: 320px;
-          background: #111827;
-          color: #f9fafb;
-          padding: 32px 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
+    /* ==================== LAYOUT ==================== */
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
 
-        .sidebar h1 {
-          font-size: 22px;
-          margin: 0;
-        }
+    /* ==================== SIDEBAR ==================== */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-min);
+      max-width: var(--sidebar-max);
+      height: 100vh;
+      background: var(--bg-sidebar);
+      color: var(--text-light);
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
 
-        .sidebar p {
-          margin: 0;
-          color: #d1d5db;
-          line-height: 1.6;
-        }
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
 
-        .form-card {
-          background: #1f2937;
-          padding: 20px;
-          border-radius: 16px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
 
-        .form-field {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          font-size: 14px;
-        }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
 
-        .form-field label {
-          color: #cbd5f5;
-        }
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        .form-field input,
-        .form-field select {
-          padding: 10px 12px;
-          border-radius: 10px;
-          border: none;
-          background: #111827;
-          color: #f9fafb;
-        }
+    .sidebar-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
 
-        .form-field input:focus,
-        .form-field select:focus {
-          outline: 2px solid #6366f1;
-        }
+    /* ==================== MENU MODULES ==================== */
+    .menu-section {
+      padding: 16px 12px;
+      flex: 1;
+    }
 
-        #but {
-          padding: 12px;
-          background: #6366f1;
-          color: #fff;
-          border: none;
-          border-radius: 12px;
-          font-weight: 600;
-          cursor: pointer;
-        }
+    .menu-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      padding: 0 12px;
+      margin: 0 0 12px 0;
+    }
 
-        #but:hover {
-          background: #4f46e5;
-        }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      margin: 4px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
 
-        .content {
-          flex: 1;
-          padding: 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
+    .menu-item:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-light);
+    }
 
-        .summary-card {
-          background: #fff;
-          border-radius: 18px;
-          padding: 24px;
-          box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
-        }
+    .menu-item.active {
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--primary);
+    }
 
-        .summary-card h2 {
-          margin: 0 0 8px 0;
-        }
+    .menu-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
 
-        #hasil {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 16px;
-        }
+    .menu-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-        .result-card {
-          background: #fff;
-          border-radius: 16px;
-          padding: 20px;
-          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
+    /* ==================== GROWTH FORM PANEL ==================== */
+    .growth-panel {
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
 
-        .result-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-        }
+    .growth-panel.hidden {
+      display: none;
+    }
 
-        .result-header h3 {
-          margin: 0;
-          font-size: 16px;
-        }
+    .panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: var(--text-light);
+    }
 
-        .badge {
-          padding: 6px 12px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 600;
-        }
+    .panel-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 16px 0;
+    }
 
-        .badge.good {
-          background: #ecfdf3;
-          color: #16a34a;
-        }
+    .form-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
 
-        .badge.warn {
-          background: #fff7ed;
-          color: #ea580c;
-        }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-        .badge.bad {
-          background: #fef2f2;
-          color: #dc2626;
-        }
+    .form-field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
 
-        .result-meta {
-          margin: 0;
-          font-size: 13px;
-          color: #6b7280;
-        }
+    .form-field input,
+    .form-field select {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.2);
+      color: var(--text-light);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
 
-        .result-detail {
-          margin: 0;
-          line-height: 1.5;
-        }
+    .form-field input:focus,
+    .form-field select:focus {
+      border-color: var(--primary);
+    }
 
-        .result-advice {
-          background: #f8fafc;
-          border-radius: 12px;
-          padding: 12px;
-          font-size: 13px;
-          color: #334155;
-        }
+    .form-field input::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
 
-        .charts {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 20px;
-        }
+    #but {
+      padding: 12px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
 
-        .chart-card {
-          background: #fff;
-          border-radius: 18px;
-          padding: 16px;
-          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-        }
+    #but:hover {
+      background: var(--primary-dark);
+    }
 
-        .chart-card h4 {
-          margin: 0 0 12px 0;
-          font-size: 15px;
-        }
+    .form-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 8px 0 0 0;
+    }
 
-        canvas {
-          width: 100%;
-          height: auto;
-          border-radius: 12px;
-          border: 1px solid #e5e7eb;
-          background: #fff;
-        }
+    /* ==================== MAIN CONTENT ==================== */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 32px;
+      max-width: 1400px;
+      min-height: 100vh;
+    }
 
-        @media (max-width: 900px) {
-          .app {
-            flex-direction: column;
-          }
+    /* ==================== SUMMARY CARD ==================== */
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
 
-          .sidebar {
-            width: 100%;
-            padding: 20px 16px;
-            gap: 16px;
-          }
+    .summary-card h2 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+    }
 
-          .sidebar h1 {
-            font-size: 20px;
-          }
+    #summaryText {
+      margin: 0;
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.6;
+    }
 
-          .sidebar p {
-            font-size: 14px;
-          }
+    /* ==================== RESULT CARDS ==================== */
+    #hasil {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
 
-          .form-card {
-            padding: 16px;
-            gap: 12px;
-          }
+    .result-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-          .form-field {
-            gap: 6px;
-          }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
 
-          .form-field input,
-          .form-field select {
-            padding: 12px;
-            font-size: 16px;
-            min-height: 44px;
-          }
+    .result-header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+    }
 
-          #but {
-            padding: 14px;
-            font-size: 16px;
-            min-height: 48px;
-          }
+    .badge {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
 
-          .content {
-            padding: 16px;
-            gap: 16px;
-          }
+    .badge.good {
+      background: #dcfce7;
+      color: #16a34a;
+    }
 
-          .summary-card {
-            padding: 16px;
-            border-radius: 12px;
-          }
+    .badge.warn {
+      background: #fef3c7;
+      color: #d97706;
+    }
 
-          .summary-card h2 {
-            font-size: 18px;
-          }
+    .badge.bad {
+      background: #fee2e2;
+      color: #dc2626;
+    }
 
-          #summaryText {
-            font-size: 14px;
-          }
+    .result-meta {
+      margin: 0;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+    }
 
-          #hasil {
-            grid-template-columns: 1fr;
-            gap: 12px;
-          }
+    .result-detail {
+      margin: 0;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+    }
 
-          .result-card {
-            padding: 16px;
-          }
+    .result-advice {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.6;
+      border-left: 3px solid var(--primary);
+    }
 
-          .result-header h3 {
-            font-size: 14px;
-          }
+    /* ==================== CHARTS ==================== */
+    .charts {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-          .badge {
-            font-size: 11px;
-            padding: 4px 10px;
-          }
+    .chart-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
 
-          .charts {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
+    .chart-card h4 {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+    }
 
-          .chart-card {
-            padding: 12px;
-            border-radius: 12px;
-          }
+    .chart-container {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+    }
 
-          .chart-card h4 {
-            font-size: 14px;
-            margin-bottom: 8px;
-          }
+    canvas {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+    }
 
-          canvas {
-            border-radius: 8px;
-          }
-        }
+    /* ==================== HAMBURGER MENU ==================== */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1100;
+      width: 44px;
+      height: 44px;
+      background: var(--bg-sidebar);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px;
+    }
 
-        @media (max-width: 480px) {
-          .sidebar {
-            padding: 16px 12px;
-          }
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
 
-          .content {
-            padding: 12px;
-          }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
 
-          .result-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-          }
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
 
-          .badge {
-            align-self: flex-start;
-          }
-        }
-      </style>
-  </head>
-  <body>
-    <div class="app">
-      <aside class="sidebar">
-        <div>
-          <h1>Analisa Grafik Pertumbuhan</h1>
-          <p>Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 1023px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 80px 24px 24px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .main-content {
+        padding: 72px 16px 16px;
+      }
+
+      #hasil {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .summary-card {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .result-card {
+        padding: 20px;
+      }
+
+      .chart-card {
+        padding: 16px;
+        border-radius: 16px;
+      }
+
+      canvas {
+        border-radius: 8px;
+      }
+    }
+
+    @media (min-width: 1400px) {
+      .main-content {
+        max-width: 1200px;
+        margin-left: var(--sidebar-width);
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hamburger Menu Button -->
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Overlay for mobile/tablet -->
+  <div class="overlay" id="overlay"></div>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Header -->
+      <div class="sidebar-header">
+        <div class="logo-section">
+          <div class="logo-icon">👶</div>
+          <h1 class="logo-text">Anak-kai</h1>
         </div>
+        <p class="sidebar-desc">Clinical tools offline, berjalan penuh di browser</p>
+      </div>
+
+      <!-- Menu Modules -->
+      <div class="menu-section">
+        <p class="menu-title">Modul Klinis</p>
+        
+        <a href="#" class="menu-item active" data-module="growth">
+          <span class="menu-icon">📊</span>
+          <span class="menu-label">Analisa Grafik Pertumbuhan (WHO)</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="kpsp">
+          <span class="menu-icon">🧩</span>
+          <span class="menu-label">Skrining Perkembangan (KPSP/ASQ)</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="anemia">
+          <span class="menu-icon">🩸</span>
+          <span class="menu-label">Skrining Anemia (Hb)</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="drug">
+          <span class="menu-icon">💊</span>
+          <span class="menu-label">Kalkulator Dosis Obat Anak</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="dehydration">
+          <span class="menu-icon">💧</span>
+          <span class="menu-label">Skrining Dehidrasi & Diare</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="immunization">
+          <span class="menu-icon">💉</span>
+          <span class="menu-label">Imunisasi</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="fever">
+          <span class="menu-icon">🌡️</span>
+          <span class="menu-label">Kalkulator Status Demam</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="bmi">
+          <span class="menu-icon">⚖️</span>
+          <span class="menu-label">BMI & Risiko Metabolik</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="fluid">
+          <span class="menu-icon">🧪</span>
+          <span class="menu-label">Cairan Maintenance (Holliday–Segar)</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="risk">
+          <span class="menu-icon">⚠️</span>
+          <span class="menu-label">Skor Risiko (Rule-based)</span>
+        </a>
+        
+        <a href="#" class="menu-item" data-module="education">
+          <span class="menu-icon">📄</span>
+          <span class="menu-label">Generator Edukasi Pasien (PDF)</span>
+        </a>
+      </div>
+
+      <!-- Growth Form Panel -->
+      <div class="growth-panel" id="growthPanel">
+        <h3 class="panel-title">Analisa Grafik Pertumbuhan</h3>
+        <p class="panel-desc">Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
+        
         <div class="form-card" id="dataInput">
           <div class="form-field">
             <label for="gender">Jenis Kelamin</label>
@@ -346,37 +597,108 @@
           </div>
           <div class="form-field">
             <label for="bb">Berat badan (kg)</label>
-            <input type="number" min="1" step="0.1" value="3.8" id="bb">
+            <input type="number" min="1" step="0.1" value="3.8" id="bb" placeholder="3,8">
           </div>
           <div class="form-field">
             <label for="tb">Tinggi badan (cm)</label>
-            <input type="number" min="30" step="0.1" value="50" id="tb">
+            <input type="number" min="30" step="0.1" value="50" id="tb" placeholder="50">
           </div>
           <button id="but">Hitung Analisa</button>
         </div>
-        <p>Grafik akan memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.</p>
-      </aside>
-      <main class="content">
-        <section class="summary-card">
-          <h2>Ringkasan Analisa</h2>
-          <p id="summaryText">Masukkan data untuk melihat ringkasan hasil.</p>
-        </section>
-        <section id="hasil"></section>
-        <section class="charts">
-          <div class="chart-card">
-            <h4>Panjang/Tinggi Badan terhadap Umur</h4>
+        
+        <p class="form-note">Grafik akan memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Summary Card -->
+      <section class="summary-card">
+        <h2>Ringkasan Analisa</h2>
+        <p id="summaryText">Masukkan data untuk melihat ringkasan hasil.</p>
+      </section>
+
+      <!-- Result Cards -->
+      <section id="hasil"></section>
+
+      <!-- Charts -->
+      <section class="charts">
+        <div class="chart-card">
+          <h4>Panjang/Tinggi Badan terhadap Umur</h4>
+          <div class="chart-container">
             <canvas id="img1" width="800" height="600"></canvas>
           </div>
-          <div class="chart-card">
-            <h4>Berat Badan terhadap Umur</h4>
+        </div>
+        <div class="chart-card">
+          <h4>Berat Badan terhadap Umur</h4>
+          <div class="chart-container">
             <canvas id="img2" width="800" height="600"></canvas>
           </div>
-          <div class="chart-card">
-            <h4>Berat Badan terhadap Panjang/Tinggi</h4>
+        </div>
+        <div class="chart-card">
+          <h4>Berat Badan terhadap Panjang/Tinggi</h4>
+          <div class="chart-container">
             <canvas id="img3" width="800" height="600"></canvas>
           </div>
-        </section>
-      </main>
-    </div>
-  </body>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Sidebar toggle functionality
+    $(document).ready(function() {
+      var $hamburger = $('#hamburger');
+      var $sidebar = $('#sidebar');
+      var $overlay = $('#overlay');
+
+      function openSidebar() {
+        $sidebar.addClass('open');
+        $overlay.addClass('active');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeSidebar() {
+        $sidebar.removeClass('open');
+        $overlay.removeClass('active');
+        $('body').css('overflow', '');
+      }
+
+      $hamburger.on('click', function() {
+        if ($sidebar.hasClass('open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+
+      $overlay.on('click', closeSidebar);
+
+      // Close sidebar when clicking menu items on tablet/mobile
+      $('.menu-item').on('click', function(e) {
+        e.preventDefault();
+        $('.menu-item').removeClass('active');
+        $(this).addClass('active');
+        
+        var module = $(this).data('module');
+        if (module === 'growth') {
+          $('#growthPanel').removeClass('hidden');
+        } else {
+          $('#growthPanel').addClass('hidden');
+        }
+        
+        if ($(window).width() < 1024) {
+          closeSidebar();
+        }
+      });
+
+      // Close sidebar on window resize to desktop
+      $(window).on('resize', function() {
+        if ($(window).width() >= 1024) {
+          closeSidebar();
+        }
+      });
+    });
+  </script>
+</body>
 </html>
