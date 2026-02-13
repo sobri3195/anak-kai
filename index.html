@@ -8,6 +8,15 @@
   <script src="canvas.js"></script>
   <script type="text/javascript" src="main.js"></script>
   <script type="text/javascript" src="kpsp.js"></script>
+  <script type="text/javascript" src="anemia.js"></script>
+  <script type="text/javascript" src="drug.js"></script>
+  <script type="text/javascript" src="dehydration.js"></script>
+  <script type="text/javascript" src="immunization.js"></script>
+  <script type="text/javascript" src="fever.js"></script>
+  <script type="text/javascript" src="bmi.js"></script>
+  <script type="text/javascript" src="fluid.js"></script>
+  <script type="text/javascript" src="risk.js"></script>
+  <script type="text/javascript" src="education.js"></script>
   <title>Anak-kai | Clinical Tools Offline</title>
   <style>
     * {
@@ -1409,43 +1418,117 @@
           // Show growth content
           $('#growthContent').removeClass('hidden');
           $('#kpspContent').removeClass('active');
-          $('#modulePlaceholder').hide();
+          $('.module-placeholder').hide();
+          hideAllModules();
         } else if (module === 'kpsp') {
           // Show KPSP content
           $('#growthContent').addClass('hidden');
           $('#kpspContent').addClass('active');
-          $('#modulePlaceholder').hide();
-          
-          // Initialize KPSP if not already done
+          $('.module-placeholder').hide();
+          hideAllModules();
           initKPSP();
         } else {
-          // For other modules, show placeholder
+          // For other modules, show the module content
           $('#growthContent').addClass('hidden');
           $('#kpspContent').removeClass('active');
-          $('#modulePlaceholder').show();
+          $('.module-placeholder').hide();
+          hideAllModules();
           
-          // Set placeholder content
-          var icons = {
-            'anemia': '🩸',
-            'drug': '💊',
-            'dehydration': '💧',
-            'immunization': '💉',
-            'fever': '🌡️',
-            'bmi': '⚖️',
-            'fluid': '🧪',
-            'risk': '⚠️',
-            'education': '📄'
-          };
-          
-          $('#placeholderIcon').text(icons[module] || '🚧');
-          $('#placeholderTitle').text(moduleName);
-          $('#placeholderDesc').text('Modul ' + moduleName + ' sedang dalam pengembangan. Silakan gunakan modul yang tersedia.');
+          // Show the specific module
+          showModule(module);
         }
         
         if ($(window).width() < 1024) {
           closeSidebar();
         }
       });
+
+      // Initialize all modules on page load
+      var moduleInstances = {};
+
+      function initAnemia() {
+        if (!moduleInstances.anemia) {
+          moduleInstances.anemia = initAnemiaModule();
+        }
+      }
+
+      function initDrug() {
+        if (!moduleInstances.drug) {
+          moduleInstances.drug = initDrugModule();
+        }
+      }
+
+      function initDehydration() {
+        if (!moduleInstances.dehydration) {
+          moduleInstances.dehydration = initDehydrationModule();
+        }
+      }
+
+      function initImmunization() {
+        if (!moduleInstances.immunization) {
+          moduleInstances.immunization = initImmunizationModule();
+        }
+      }
+
+      function initFever() {
+        if (!moduleInstances.fever) {
+          moduleInstances.fever = initFeverModule();
+        }
+      }
+
+      function initBMI() {
+        if (!moduleInstances.bmi) {
+          moduleInstances.bmi = initBMIModule();
+        }
+      }
+
+      function initFluid() {
+        if (!moduleInstances.fluid) {
+          moduleInstances.fluid = initFluidModule();
+        }
+      }
+
+      function initRisk() {
+        if (!moduleInstances.risk) {
+          moduleInstances.risk = initRiskModule();
+        }
+      }
+
+      function initEducation() {
+        if (!moduleInstances.education) {
+          moduleInstances.education = initEducationModule();
+        }
+      }
+
+      function showModule(moduleName) {
+        var moduleMap = {
+          'anemia': initAnemia,
+          'drug': initDrug,
+          'dehydration': initDehydration,
+          'immunization': initImmunization,
+          'fever': initFever,
+          'bmi': initBMI,
+          'fluid': initFluid,
+          'risk': initRisk,
+          'education': initEducation
+        };
+
+        if (moduleMap[moduleName]) {
+          moduleMap[moduleName]();
+          var content = $('.main-content').find('.' + moduleName + '-content');
+          if (content.length > 0) {
+            content.show();
+          }
+        }
+      }
+
+      function hideAllModules() {
+        $('.main-content').find('[class$="-content"]').each(function() {
+          if (!$(this).hasClass('growth-content') && !$(this).hasClass('kpsp-content')) {
+            $(this).hide();
+          }
+        });
+      }
 
       // Close sidebar on window resize to desktop
       $(window).on('resize', function() {
