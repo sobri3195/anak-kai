@@ -7,6 +7,7 @@
   <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
   <script src="canvas.js"></script>
   <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="kpsp.js"></script>
   <title>Anak-kai | Clinical Tools Offline</title>
   <style>
     * {
@@ -706,6 +707,321 @@
         max-width: 1100px;
       }
     }
+
+    /* ==================== KPSP STYLES ==================== */
+    .kpsp-questionnaire {
+      display: none;
+    }
+
+    .kpsp-questionnaire.active {
+      display: block;
+    }
+
+    .kpsp-age-group-info {
+      background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .kpsp-age-group-info h4 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #1e293b;
+    }
+
+    .kpsp-age-group-info p {
+      margin: 0;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .kpsp-question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .kpsp-question-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .kpsp-question-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
+    }
+
+    .kpsp-question-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .kpsp-question-text {
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .kpsp-category-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #f1f5f9;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+
+    .kpsp-answer-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .kpsp-answer-option {
+      flex: 1;
+    }
+
+    .kpsp-answer-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .kpsp-answer-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #fff;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+
+    .kpsp-answer-option input[type="radio"]:checked + label.yes {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #16a34a;
+    }
+
+    .kpsp-answer-option input[type="radio"]:checked + label.no {
+      background: #fee2e2;
+      border-color: #dc2626;
+      color: #dc2626;
+    }
+
+    .kpsp-answer-option:hover label {
+      border-color: #cbd5e1;
+    }
+
+    .kpsp-result-section {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .kpsp-result-section.active {
+      display: block;
+    }
+
+    .kpsp-result-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .kpsp-result-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .kpsp-result-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .kpsp-result-status.normal {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .kpsp-result-status.suspect {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .kpsp-result-status.abnormal {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .kpsp-score-display {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+
+    .kpsp-score-display span {
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .kpsp-category-breakdown {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .kpsp-category-item {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kpsp-category-name {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .kpsp-category-score {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .kpsp-advice-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .kpsp-advice-box h4 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: #1e293b;
+    }
+
+    .kpsp-advice-box p {
+      margin: 0;
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .kpsp-info-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+    }
+
+    .kpsp-info-box h4 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      color: #1e293b;
+    }
+
+    .kpsp-info-box ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.8;
+    }
+
+    .kpsp-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .kpsp-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      margin: 0 12px;
+      overflow: hidden;
+    }
+
+    .kpsp-progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    @media (max-width: 767px) {
+      .kpsp-category-breakdown {
+        grid-template-columns: 1fr;
+      }
+      
+      .kpsp-answer-group {
+        flex-direction: column;
+      }
+      
+      .kpsp-question-item {
+        padding: 14px;
+      }
+    }
+
+    /* Growth module hidden state */
+    .growth-content {
+      display: block;
+    }
+
+    .growth-content.hidden {
+      display: none;
+    }
+
+    .kpsp-content {
+      display: none;
+    }
+
+    .kpsp-content.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -863,38 +1179,146 @@
       </div>
     </aside>
 
+    <!-- KPSP Right Sidebar -->
+    <aside class="right-sidebar" id="kpspSidebar">
+      <div class="right-sidebar-header">
+        <h2 class="right-sidebar-title">Skrining Perkembangan (KPSP/ASQ)</h2>
+        <p class="right-sidebar-desc">Kuesioner untuk menilai perkembangan anak usia 0-72 bulan. Jawab 10 pertanyaan berdasarkan kemampuan anak saat ini.</p>
+      </div>
+
+      <div class="right-sidebar-content">
+        <div class="form-card" id="kpspForm">
+          <!-- Age Selection -->
+          <div class="form-field">
+            <label for="kpsp-age">Umur Anak (bulan)</label>
+            <select id="kpsp-age">
+              <option value="">Pilih umur anak</option>
+            </select>
+            <div class="error-message" id="kpsp-age-error"></div>
+          </div>
+
+          <!-- Start Button -->
+          <div class="form-field" id="kpsp-start-container">
+            <button id="kpsp-start" class="btn-start" style="width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;">Mulai Skrining</button>
+          </div>
+        </div>
+
+        <!-- Questionnaire Section -->
+        <div class="kpsp-questionnaire" id="kpsp-questionnaire">
+          <div class="kpsp-age-group-info" id="kpsp-age-info">
+            <h4>Kelompok Umur: <span id="kpsp-age-label">-</span></h4>
+            <p>Jawab semua pertanyaan dengan "Ya" jika anak dapat melakukannya, atau "Tidak" jika belum.</p>
+          </div>
+
+          <div class="kpsp-progress" id="kpsp-progress">
+            <span>Progres</span>
+            <div class="kpsp-progress-bar">
+              <div class="kpsp-progress-fill" id="kpsp-progress-fill" style="width: 0%"></div>
+            </div>
+            <span id="kpsp-progress-text">0/10</span>
+          </div>
+
+          <div class="kpsp-question-list" id="kpsp-question-list">
+            <!-- Questions will be populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="right-sidebar-footer" id="kpsp-footer" style="display: none;">
+        <button id="kpsp-submit">Hitung Hasil Skrining</button>
+        <p class="form-note">Klik "Hitung Hasil Skrining" untuk melihat interpretasi hasil.</p>
+      </div>
+    </aside>
+
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Summary Card -->
-      <section class="summary-card">
-        <h2>Ringkasan Analisa</h2>
-        <p id="summaryText">Masukkan data untuk melihat ringkasan hasil.</p>
-      </section>
+      <!-- Growth Content -->
+      <div class="growth-content" id="growthContent">
+        <!-- Summary Card -->
+        <section class="summary-card">
+          <h2>Ringkasan Analisa</h2>
+          <p id="summaryText">Masukkan data untuk melihat ringkasan hasil.</p>
+        </section>
 
-      <!-- Result Cards -->
-      <section id="hasil"></section>
+        <!-- Result Cards -->
+        <section id="hasil"></section>
 
-      <!-- Charts -->
-      <section class="charts">
-        <div class="chart-card">
-          <h4>Panjang/Tinggi Badan terhadap Umur</h4>
-          <div class="chart-container">
-            <canvas id="img1" width="800" height="600"></canvas>
+        <!-- Charts -->
+        <section class="charts">
+          <div class="chart-card">
+            <h4>Panjang/Tinggi Badan terhadap Umur</h4>
+            <div class="chart-container">
+              <canvas id="img1" width="800" height="600"></canvas>
+            </div>
           </div>
-        </div>
-        <div class="chart-card">
-          <h4>Berat Badan terhadap Umur</h4>
-          <div class="chart-container">
-            <canvas id="img2" width="800" height="600"></canvas>
+          <div class="chart-card">
+            <h4>Berat Badan terhadap Umur</h4>
+            <div class="chart-container">
+              <canvas id="img2" width="800" height="600"></canvas>
+            </div>
           </div>
-        </div>
-        <div class="chart-card">
-          <h4>Berat Badan terhadap Panjang/Tinggi</h4>
-          <div class="chart-container">
-            <canvas id="img3" width="800" height="600"></canvas>
+          <div class="chart-card">
+            <h4>Berat Badan terhadap Panjang/Tinggi</h4>
+            <div class="chart-container">
+              <canvas id="img3" width="800" height="600"></canvas>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+
+      <!-- KPSP Content -->
+      <div class="kpsp-content" id="kpspContent">
+        <!-- KPSP Summary -->
+        <section class="summary-card">
+          <h2>Skrining Perkembangan Anak</h2>
+          <p id="kpsp-summary-text">Pilih umur anak dan jawab 10 pertanyaan untuk menilai perkembangan.</p>
+        </section>
+
+        <!-- KPSP Result Section -->
+        <section class="kpsp-result-section" id="kpsp-result">
+          <div class="kpsp-result-card">
+            <div class="kpsp-result-header">
+              <div class="kpsp-result-status" id="kpsp-result-status">
+                <span id="kpsp-status-icon">✓</span>
+                <span id="kpsp-status-text">-</span>
+              </div>
+              <p class="kpsp-score-display">
+                Skor: <span id="kpsp-yes-count">0</span> Ya dari 10 pertanyaan
+              </p>
+            </div>
+
+            <div id="kpsp-result-description" style="text-align: center; color: #475569; font-size: 14px; margin-bottom: 20px;">
+              -
+            </div>
+
+            <div class="kpsp-category-breakdown" id="kpsp-category-breakdown">
+              <!-- Category scores will be populated by JS -->
+            </div>
+
+            <div class="kpsp-advice-box">
+              <h4>📋 Rekomendasi</h4>
+              <p id="kpsp-advice-text">-</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- KPSP Info Box -->
+        <section class="kpsp-info-box" id="kpsp-info-box">
+          <h4>ℹ️ Tentang KPSP/ASQ</h4>
+          <ul>
+            <li><strong>KPSP</strong> (Kuesioner Pra Skrining Perkembangan) adalah alat skrining standar di Indonesia.</li>
+            <li><strong>ASQ</strong> (Ages and Stages Questionnaires) adalah instrumen internasional yang mendasarai KPSP.</li>
+            <li>Skrining ini menilai 5 area perkembangan: Komunikasi, Motorik Kasar, Motorik Halus, Kognitif, dan Sosialisasi.</li>
+            <li><strong>Interpretasi Hasil:</strong>
+              <ul style="margin-top: 8px;">
+                <li><strong>9-10 Ya:</strong> Perkembangan sesuai usia</li>
+                <li><strong>7-8 Ya:</strong> Perlu pemantauan dan ulangan skrining</li>
+                <li><strong>&lt; 7 Ya:</strong> Perlu evaluasi lebih lanjut oleh tenaga kesehatan</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </div>
     </main>
   </div>
 
@@ -905,7 +1329,11 @@
       var $sidebar = $('#sidebar');
       var $overlay = $('#overlay');
       var $rightSidebar = $('#rightSidebar');
+      var $kpspSidebar = $('#kpspSidebar');
       var $rightSidebarToggle = $('#rightSidebarToggle');
+
+      // Hide KPSP sidebar initially
+      $kpspSidebar.addClass('hidden');
 
       function openSidebar() {
         $sidebar.addClass('open');
@@ -920,13 +1348,19 @@
       }
 
       function openRightSidebar() {
-        $rightSidebar.addClass('open');
+        var activeModule = $('.menu-item.active').data('module');
+        if (activeModule === 'growth') {
+          $rightSidebar.addClass('open');
+        } else if (activeModule === 'kpsp') {
+          $kpspSidebar.addClass('open');
+        }
         $overlay.addClass('active');
         $('body').css('overflow', 'hidden');
       }
 
       function closeRightSidebar() {
         $rightSidebar.removeClass('open');
+        $kpspSidebar.removeClass('open');
         $overlay.removeClass('active');
         $('body').css('overflow', '');
       }
@@ -940,10 +1374,23 @@
       });
 
       $rightSidebarToggle.on('click', function() {
-        if ($rightSidebar.hasClass('open')) {
-          closeRightSidebar();
-        } else {
-          openRightSidebar();
+        var activeModule = $('.menu-item.active').data('module');
+        if (activeModule === 'growth') {
+          if ($rightSidebar.hasClass('open')) {
+            $rightSidebar.removeClass('open');
+            $overlay.removeClass('active');
+          } else {
+            $rightSidebar.addClass('open');
+            $overlay.addClass('active');
+          }
+        } else if (activeModule === 'kpsp') {
+          if ($kpspSidebar.hasClass('open')) {
+            $kpspSidebar.removeClass('open');
+            $overlay.removeClass('active');
+          } else {
+            $kpspSidebar.addClass('open');
+            $overlay.addClass('active');
+          }
         }
       });
 
@@ -952,17 +1399,39 @@
         closeRightSidebar();
       });
 
-      // Close sidebar when clicking menu items on tablet/mobile
+      // Menu navigation
       $('.menu-item').on('click', function(e) {
         e.preventDefault();
         $('.menu-item').removeClass('active');
         $(this).addClass('active');
         
         var module = $(this).data('module');
+        
         if (module === 'growth') {
+          // Show growth content
+          $('#growthContent').removeClass('hidden');
+          $('#kpspContent').removeClass('active');
           $rightSidebar.removeClass('hidden');
-        } else {
+          $kpspSidebar.addClass('hidden');
+        } else if (module === 'kpsp') {
+          // Show KPSP content
+          $('#growthContent').addClass('hidden');
+          $('#kpspContent').addClass('active');
           $rightSidebar.addClass('hidden');
+          $kpspSidebar.removeClass('hidden');
+          
+          // Initialize KPSP if not already done
+          initKPSP();
+        } else {
+          // For other modules, show placeholder
+          $('#growthContent').addClass('hidden');
+          $('#kpspContent').removeClass('active');
+          $rightSidebar.addClass('hidden');
+          $kpspSidebar.addClass('hidden');
+          
+          // Show module info in main content
+          $('#kpsp-summary-text').text('Modul ' + $(this).find('.menu-label').text() + ' sedang dalam pengembangan.');
+          $('#kpspContent').addClass('active');
         }
         
         if ($(window).width() < 1024) {
@@ -990,7 +1459,7 @@
         }
       });
 
-      // Form validation
+      // Form validation for growth
       function validateForm() {
         var isValid = true;
         var age = parseFloat($('#age').val());
@@ -1046,6 +1515,227 @@
         $(this).removeClass('error');
         $(this).siblings('.error-message').removeClass('visible');
       });
+
+      // ==================== KPSP FUNCTIONALITY ====================
+      var kpspInitialized = false;
+      var kpspAnswers = {};
+      var currentAgeGroup = null;
+
+      function initKPSP() {
+        if (kpspInitialized) return;
+        
+        // Populate age dropdown
+        var ageSelect = $('#kpsp-age');
+        KPSP_DATA.ageGroups.forEach(function(group) {
+          var option = $('<option>')
+            .attr('value', group.minAge)
+            .text(group.label);
+          ageSelect.append(option);
+        });
+
+        // Age change handler
+        ageSelect.on('change', function() {
+          $('#kpsp-age-error').removeClass('visible');
+        });
+
+        // Start screening button
+        $('#kpsp-start').on('click', function() {
+          var selectedAge = parseInt($('#kpsp-age').val());
+          if (!selectedAge && selectedAge !== 0) {
+            $('#kpsp-age-error').text('Silakan pilih umur anak terlebih dahulu').addClass('visible');
+            return;
+          }
+          
+          currentAgeGroup = getAgeGroup(selectedAge);
+          if (currentAgeGroup) {
+            showKPSPQuestions(currentAgeGroup);
+          }
+        });
+
+        // Submit button
+        $('#kpsp-submit').on('click', function() {
+          calculateKPSPResult();
+        });
+
+        kpspInitialized = true;
+      }
+
+      function showKPSPQuestions(ageGroup) {
+        // Update UI
+        $('#kpsp-age-label').text(ageGroup.label);
+        $('#kpsp-start-container').hide();
+        $('#kpsp-questionnaire').addClass('active');
+        $('#kpsp-footer').show();
+        $('#kpsp-result').removeClass('active');
+        $('#kpsp-info-box').show();
+        
+        // Clear previous answers
+        kpspAnswers = {};
+        updateKPSPProgress();
+
+        // Generate questions
+        var questionList = $('#kpsp-question-list');
+        questionList.empty();
+
+        ageGroup.questions.forEach(function(q, index) {
+          var questionItem = $('<div>').addClass('kpsp-question-item');
+          
+          var categoryBadge = $('<span>')
+            .addClass('kpsp-category-badge')
+            .text(q.category);
+          
+          var questionText = $('<div>')
+            .addClass('kpsp-question-text')
+            .html('<span class="kpsp-question-number">' + (index + 1) + '</span>' + q.text);
+          
+          var answerGroup = $('<div>').addClass('kpsp-answer-group');
+          
+          // Yes option
+          var yesOption = $('<div>').addClass('kpsp-answer-option');
+          var yesInput = $('<input>')
+            .attr({
+              type: 'radio',
+              name: 'q' + index,
+              id: 'q' + index + '-yes',
+              value: 'yes'
+            })
+            .on('change', function() {
+              kpspAnswers[index] = 'yes';
+              updateKPSPProgress();
+            });
+          var yesLabel = $('<label>')
+            .addClass('yes')
+            .attr('for', 'q' + index + '-yes')
+            .html('✓ Ya');
+          yesOption.append(yesInput, yesLabel);
+          
+          // No option
+          var noOption = $('<div>').addClass('kpsp-answer-option');
+          var noInput = $('<input>')
+            .attr({
+              type: 'radio',
+              name: 'q' + index,
+              id: 'q' + index + '-no',
+              value: 'no'
+            })
+            .on('change', function() {
+              kpspAnswers[index] = 'no';
+              updateKPSPProgress();
+            });
+          var noLabel = $('<label>')
+            .addClass('no')
+            .attr('for', 'q' + index + '-no')
+            .html('✗ Tidak');
+          noOption.append(noInput, noLabel);
+          
+          answerGroup.append(yesOption, noOption);
+          questionItem.append(categoryBadge, questionText, answerGroup);
+          questionList.append(questionItem);
+        });
+
+        // Update summary text
+        $('#kpsp-summary-text').text('Jawab 10 pertanyaan untuk kelompok umur ' + ageGroup.label + '.');
+      }
+
+      function updateKPSPProgress() {
+        var answered = Object.keys(kpspAnswers).length;
+        var progress = (answered / 10) * 100;
+        
+        $('#kpsp-progress-fill').css('width', progress + '%');
+        $('#kpsp-progress-text').text(answered + '/10');
+      }
+
+      function calculateKPSPResult() {
+        // Check if all questions are answered
+        if (Object.keys(kpspAnswers).length < 10) {
+          alert('Silakan jawab semua pertanyaan terlebih dahulu.');
+          return;
+        }
+
+        // Count yes answers
+        var yesCount = 0;
+        for (var key in kpspAnswers) {
+          if (kpspAnswers[key] === 'yes') {
+            yesCount++;
+          }
+        }
+
+        // Get interpretation
+        var result = calculateKPSPResultFromCount(yesCount);
+
+        // Update result display
+        $('#kpsp-yes-count').text(yesCount);
+        $('#kpsp-status-text').text(result.label);
+        $('#kpsp-result-description').text(result.description);
+        $('#kpsp-advice-text').text(result.advice);
+
+        // Update status styling
+        var statusEl = $('#kpsp-result-status');
+        statusEl.removeClass('normal suspect abnormal');
+        
+        if (yesCount >= 9) {
+          statusEl.addClass('normal');
+          $('#kpsp-status-icon').text('✓');
+        } else if (yesCount >= 7) {
+          statusEl.addClass('suspect');
+          $('#kpsp-status-icon').text('⚠');
+        } else {
+          statusEl.addClass('abnormal');
+          $('#kpsp-status-icon').text('✗');
+        }
+
+        // Update category breakdown
+        updateCategoryBreakdown();
+
+        // Show result
+        $('#kpsp-result').addClass('active');
+        $('#kpsp-info-box').hide();
+
+        // Update summary
+        $('#kpsp-summary-text').text('Hasil skrining: ' + result.label + ' (' + yesCount + '/10 Ya)');
+
+        // Scroll to result
+        $('html, body').animate({
+          scrollTop: $('#kpsp-result').offset().top - 100
+        }, 500);
+      }
+
+      function calculateKPSPResultFromCount(yesCount) {
+        if (yesCount >= 9) {
+          return KPSP_DATA.interpretation.normal;
+        } else if (yesCount >= 7) {
+          return KPSP_DATA.interpretation.suspect;
+        } else {
+          return KPSP_DATA.interpretation.abnormal;
+        }
+      }
+
+      function updateCategoryBreakdown() {
+        var categories = {};
+        
+        if (currentAgeGroup) {
+          currentAgeGroup.questions.forEach(function(q, index) {
+            if (!categories[q.category]) {
+              categories[q.category] = { total: 0, yes: 0 };
+            }
+            categories[q.category].total++;
+            if (kpspAnswers[index] === 'yes') {
+              categories[q.category].yes++;
+            }
+          });
+        }
+
+        var breakdownHtml = '';
+        for (var category in categories) {
+          var cat = categories[category];
+          breakdownHtml += '<div class="kpsp-category-item">';
+          breakdownHtml += '<span class="kpsp-category-name">' + category + '</span>';
+          breakdownHtml += '<span class="kpsp-category-score">' + cat.yes + '/' + cat.total + '</span>';
+          breakdownHtml += '</div>';
+        }
+
+        $('#kpsp-category-breakdown').html(breakdownHtml);
+      }
     });
   </script>
 </body>
