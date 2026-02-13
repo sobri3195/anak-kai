@@ -1,6 +1,13 @@
 var data;
+var dataReady = false;
+var domReady = false;
+
 $.getJSON("data copy.json", function(d) {
   data = d;
+  dataReady = true;
+  if (domReady) {
+    interpret();
+  }
 });
 
 function SD_status(x) {
@@ -30,24 +37,86 @@ function getWeight() {  return $("#bb").val(); }
 function getHc() {  return 50; }
 function Gender() { return $("#gender").val(); }
 
+function buildSdLabel(sd) {
+  return sd > 0 ? "+" + sd : sd.toString();
+}
+
+function buildTone(status) {
+  if (status === "Normal") return "good";
+  if (status === "Resiko Overweight") return "warn";
+  if (status === "Overweight") return "warn";
+  if (status === "Berat Lebih") return "warn";
+  if (status === "Tinggi") return "warn";
+  return status.indexOf("Normal") !== -1 ? "good" : "bad";
+}
+
+function renderResults(results) {
+  var html = results.map(function(result) {
+    return (
+      "<div class=\"result-card\">" +
+      "<div class=\"result-header\">" +
+      "<h3>" + result.title + "</h3>" +
+      "<span class=\"badge " + result.tone + "\">" + result.status + "</span>" +
+      "</div>" +
+      "<p class=\"result-meta\">Kategori SD: " + result.sdLabel + "</p>" +
+      "<p class=\"result-detail\">" + result.detail + "</p>" +
+      "<div class=\"result-advice\"><strong>Rekomendasi:</strong> " + result.advice + "</div>" +
+      "</div>"
+    );
+  }).join("");
+
+  $("#hasil").html(html);
+}
+
+function updateSummary(results) {
+  var summary = results.map(function(result) {
+    return result.shortLabel + ": " + result.status;
+  }).join(" | ");
+
+  $("#summaryText").text("Ringkasan cepat: " + summary + ".");
+}
+
 function interpret() {
-  var umur = getUmur(),
-      length = getLength(),
-      weight = getWeight(),
+  var umur = parseFloat(getUmur()),
+      length = parseFloat(getLength()),
+      weight = parseFloat(getWeight()),
       hc = getHc(),
       gender = Gender();
+
+  var results = [];
 
   /** LENGTH FOR AGE
    * below -2 = stunted
    * below -3 = severely stunted
    */
-  // console.log("L = ", length)
   var s = get_prop(gender, umur, "lfa", length);
   var sd = s[1], idx = s[0];
-  var txt = "Normal";
-  if(sd == -3) txt = "Severely Stunted";
-  else if(sd == -2) txt = "Stunted";
-  updateText("Panjang badan terhadap umur: " + txt);
+  var status = "Normal";
+  var detail = "Panjang badan berada pada rentang normal berdasarkan umur.";
+  var advice = "Pertahankan pola makan bergizi seimbang dan pemantauan rutin.";
+  if (sd == -3) {
+    status = "Sangat Pendek";
+    detail = "Panjang badan jauh di bawah standar, mengindikasikan stunting berat.";
+    advice = "Konsultasikan ke tenaga kesehatan untuk evaluasi pertumbuhan dan intervensi gizi.";
+  } else if (sd == -2) {
+    status = "Pendek";
+    detail = "Panjang badan di bawah standar untuk usia anak.";
+    advice = "Perhatikan asupan protein, mikronutrien, dan jadwal kontrol kesehatan.";
+  } else if (sd >= 3) {
+    status = "Tinggi";
+    detail = "Panjang badan di atas rata-rata usia sebayanya.";
+    advice = "Pastikan kebutuhan energi dan istirahat tercukupi agar pertumbuhan stabil.";
+  }
+
+  results.push({
+    title: "Panjang/Tinggi Badan terhadap Umur",
+    shortLabel: "PB/U",
+    status: status,
+    sdLabel: "SD " + buildSdLabel(sd),
+    detail: detail,
+    advice: advice,
+    tone: buildTone(status)
+  });
   draw_pos(document.getElementById("img1"), gender, "lfa", umur, length);
 
   /** WEIGHT FOR AGE
@@ -56,10 +125,32 @@ function interpret() {
    */
   s = get_prop(gender, umur, "wfa", weight);
   sd = s[1], idx = s[0];
-  txt = "Normal";
-  if (sd == -3) txt = "Severely Underweight";
-  else if(sd == -2) txt = "Underweight";
-  updateText("Berat badan terhadap umur: " + txt, true);
+  status = "Normal";
+  detail = "Berat badan sesuai dengan umur anak.";
+  advice = "Lanjutkan variasi menu makanan agar asupan energi tetap terjaga.";
+  if (sd == -3) {
+    status = "Sangat Kurang";
+    detail = "Berat badan jauh di bawah standar usia, mengarah pada gizi buruk.";
+    advice = "Perlu penanganan segera dan pemantauan ketat dari tenaga kesehatan.";
+  } else if (sd == -2) {
+    status = "Kurang";
+    detail = "Berat badan di bawah standar usia.";
+    advice = "Tambahkan frekuensi makan, sumber protein, dan cek kesehatan rutin.";
+  } else if (sd >= 3) {
+    status = "Berat Lebih";
+    detail = "Berat badan berada di atas rentang normal untuk usia.";
+    advice = "Evaluasi pola makan dan aktivitas agar berat badan terkendali.";
+  }
+
+  results.push({
+    title: "Berat Badan terhadap Umur",
+    shortLabel: "BB/U",
+    status: status,
+    sdLabel: "SD " + buildSdLabel(sd),
+    detail: detail,
+    advice: advice,
+    tone: buildTone(status)
+  });
   draw_pos(document.getElementById("img2"), gender, "wfa", umur, weight);
 
   /* WEIGHT FOR LENGTH
@@ -71,29 +162,54 @@ function interpret() {
    */
   s = get_prop(gender, (length-40)*2, "wfl", weight);
   sd = s[1], idx = s[0];
-  txt = "Normal";
-  wfl_d = ["Gizi kurang", "Gizi rendah", "Normal", "Normal", "Normal", "Resiko Overweight", "Overweight", "Obese"];
-  txt = wfl_d[idx];
-  updateText("PB terhadap BB: " + txt, true);
+  var wfl_d = ["Gizi kurang", "Gizi rendah", "Normal", "Normal", "Normal", "Resiko Overweight", "Overweight", "Obese"];
+  status = wfl_d[idx];
+  detail = "Proporsi berat badan terhadap panjang badan berada dalam batas wajar.";
+  advice = "Pertahankan asupan makan seimbang dan aktivitas harian yang cukup.";
+  if (status === "Gizi kurang") {
+    detail = "Berat badan sangat rendah dibanding panjang badan.";
+    advice = "Perlu tambahan energi, protein, dan pemantauan pertumbuhan lebih sering.";
+  } else if (status === "Gizi rendah") {
+    detail = "Berat badan lebih rendah dari yang diharapkan berdasarkan panjang badan.";
+    advice = "Perbaiki pola makan dengan porsi lebih padat gizi dan evaluasi kesehatan.";
+  } else if (status === "Resiko Overweight") {
+    detail = "Berat badan mulai mendekati batas atas, risiko kelebihan berat badan.";
+    advice = "Jaga komposisi makan, kurangi makanan tinggi gula/lemak, tetap aktif.";
+  } else if (status === "Overweight") {
+    detail = "Berat badan di atas standar untuk panjang badan.";
+    advice = "Konsultasikan untuk pengaturan makan dan aktivitas agar berat seimbang.";
+  } else if (status === "Obese") {
+    detail = "Berat badan jauh di atas standar untuk panjang badan.";
+    advice = "Segera evaluasi bersama tenaga kesehatan untuk rencana penanganan.";
+  }
+
+  results.push({
+    title: "Berat Badan terhadap Panjang/Tinggi",
+    shortLabel: "BB/PB",
+    status: status,
+    sdLabel: "SD " + buildSdLabel(sd),
+    detail: detail,
+    advice: advice,
+    tone: buildTone(status)
+  });
   draw_pos(document.getElementById("img3"), gender, "wfl", length, weight);
+
+  renderResults(results);
+  updateSummary(results);
 }
 
 $(document).ready(function() {
+  domReady = true;
   for(var i = 0;i <= 24;++i) {
     $("#age").append( $("<option>").attr("value",i)
                       .text(i.toString() + " bulan") );
   }
   $("#but").click(function() {
-    interpret();
+    if (dataReady) {
+      interpret();
+    }
   });
-});
-
-// functions to modify display
-function updateText(txt, append) {
-  append = append || false;
-  if(!append)
-    $("#hasil").text(txt);
-  else {
-    $("#hasil").append("<br/>" + txt);
+  if (dataReady) {
+    interpret();
   }
-}
+});
