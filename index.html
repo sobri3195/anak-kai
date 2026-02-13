@@ -214,6 +214,113 @@
 
           .sidebar {
             width: 100%;
+            padding: 20px 16px;
+            gap: 16px;
+          }
+
+          .sidebar h1 {
+            font-size: 20px;
+          }
+
+          .sidebar p {
+            font-size: 14px;
+          }
+
+          .form-card {
+            padding: 16px;
+            gap: 12px;
+          }
+
+          .form-field {
+            gap: 6px;
+          }
+
+          .form-field input,
+          .form-field select {
+            padding: 12px;
+            font-size: 16px;
+            min-height: 44px;
+          }
+
+          #but {
+            padding: 14px;
+            font-size: 16px;
+            min-height: 48px;
+          }
+
+          .content {
+            padding: 16px;
+            gap: 16px;
+          }
+
+          .summary-card {
+            padding: 16px;
+            border-radius: 12px;
+          }
+
+          .summary-card h2 {
+            font-size: 18px;
+          }
+
+          #summaryText {
+            font-size: 14px;
+          }
+
+          #hasil {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+
+          .result-card {
+            padding: 16px;
+          }
+
+          .result-header h3 {
+            font-size: 14px;
+          }
+
+          .badge {
+            font-size: 11px;
+            padding: 4px 10px;
+          }
+
+          .charts {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+
+          .chart-card {
+            padding: 12px;
+            border-radius: 12px;
+          }
+
+          .chart-card h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+          }
+
+          canvas {
+            border-radius: 8px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .sidebar {
+            padding: 16px 12px;
+          }
+
+          .content {
+            padding: 12px;
+          }
+
+          .result-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+          }
+
+          .badge {
+            align-self: flex-start;
           }
         }
       </style>
