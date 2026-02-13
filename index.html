@@ -44,7 +44,7 @@
       min-height: 100vh;
     }
 
-    /* ==================== SIDEBAR ==================== */
+    /* ==================== LEFT SIDEBAR ==================== */
     .sidebar {
       position: fixed;
       top: 0;
@@ -155,101 +155,258 @@
       font-weight: 500;
     }
 
-    /* ==================== GROWTH FORM PANEL ==================== */
-    .growth-panel {
-      padding: 20px;
-      background: rgba(255,255,255,0.03);
-      border-top: 1px solid rgba(255,255,255,0.1);
+    /* ==================== RIGHT SIDEBAR (GROWTH FORM) ==================== */
+    .right-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-min);
+      max-width: var(--sidebar-max);
+      height: 100vh;
+      background: #ffffff;
+      color: #1e293b;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
     }
 
-    .growth-panel.hidden {
-      display: none;
+    .right-sidebar.hidden {
+      transform: translateX(100%);
     }
 
-    .panel-title {
-      font-size: 16px;
-      font-weight: 600;
+    .right-sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .right-sidebar-title {
+      font-size: 18px;
+      font-weight: 700;
       margin: 0 0 8px 0;
-      color: var(--text-light);
+      color: #0f172a;
     }
 
-    .panel-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin: 0 0 16px 0;
+    .right-sidebar-desc {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .right-sidebar-content {
+      padding: 24px;
+      flex: 1;
     }
 
     .form-card {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .form-field {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .form-field label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
     }
 
+    /* Gender Radio Group (Segmented Control) */
+    .radio-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .radio-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .radio-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .radio-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #64748b;
+      transition: all 0.2s ease;
+      margin: 0;
+    }
+
+    .radio-option input[type="radio"]:checked + label {
+      background: #e0f2fe;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .radio-option input[type="radio"]:hover + label {
+      border-color: #cbd5e1;
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      background: #cbd5e1;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .toggle-switch.active {
+      background: var(--primary);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(24px);
+    }
+
+    /* Input Fields */
     .form-field input,
     .form-field select {
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.2);
-      color: var(--text-light);
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      color: #1e293b;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-field input:focus,
     .form-field select:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 
     .form-field input::placeholder {
-      color: rgba(255,255,255,0.3);
+      color: #94a3b8;
+    }
+
+    .form-field input.error,
+    .form-field select.error {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    /* Inline Error Messages */
+    .error-message {
+      font-size: 12px;
+      color: var(--danger);
+      margin-top: 4px;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    /* Submit Button */
+    .right-sidebar-footer {
+      padding: 20px 24px;
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
     }
 
     #but {
-      padding: 12px;
+      width: 100%;
+      padding: 14px 20px;
       background: var(--primary);
       color: #fff;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
       cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 4px;
+      transition: background 0.2s, transform 0.1s;
     }
 
     #but:hover {
       background: var(--primary-dark);
     }
 
+    #but:active {
+      transform: translateY(1px);
+    }
+
     .form-note {
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: #64748b;
       line-height: 1.5;
-      margin: 8px 0 0 0;
+      margin: 12px 0 0 0;
+      text-align: center;
     }
 
     /* ==================== MAIN CONTENT ==================== */
     .main-content {
       margin-left: var(--sidebar-width);
+      margin-right: var(--sidebar-width);
       flex: 1;
       padding: 32px;
-      max-width: 1400px;
-      min-height: 100vh;
+      max-width: 1200px;
+      margin-left: var(--sidebar-width);
+      margin-right: calc(var(--sidebar-width) + 0px);
     }
 
     /* ==================== SUMMARY CARD ==================== */
@@ -263,8 +420,8 @@
 
     .summary-card h2 {
       margin: 0 0 12px 0;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 20px;
+      font-weight: 700;
       color: #1e293b;
     }
 
@@ -272,15 +429,15 @@
       margin: 0;
       font-size: 15px;
       color: #64748b;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     /* ==================== RESULT CARDS ==================== */
     #hasil {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     .result-card {
@@ -302,9 +459,10 @@
 
     .result-header h3 {
       margin: 0;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       color: #1e293b;
+      line-height: 1.4;
     }
 
     .badge {
@@ -332,23 +490,23 @@
 
     .result-meta {
       margin: 0;
-      font-size: 13px;
+      font-size: 12px;
       color: #64748b;
       font-weight: 500;
     }
 
     .result-detail {
       margin: 0;
-      font-size: 14px;
+      font-size: 13px;
       color: #475569;
       line-height: 1.6;
     }
 
     .result-advice {
-      background: #f8fafc;
+      background: #f0f9ff;
       border-radius: 12px;
-      padding: 16px;
-      font-size: 13px;
+      padding: 14px 16px;
+      font-size: 12px;
       color: #334155;
       line-height: 1.6;
       border-left: 3px solid var(--primary);
@@ -364,14 +522,14 @@
     .chart-card {
       background: var(--card-bg);
       border-radius: 20px;
-      padding: 24px;
+      padding: 28px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
 
     .chart-card h4 {
-      margin: 0 0 16px 0;
-      font-size: 16px;
-      font-weight: 600;
+      margin: 0 0 20px 0;
+      font-size: 17px;
+      font-weight: 700;
       color: #1e293b;
     }
 
@@ -379,6 +537,7 @@
       width: 100%;
       overflow: hidden;
       border-radius: 12px;
+      background: #f8fafc;
     }
 
     canvas {
@@ -419,6 +578,34 @@
       transition: all 0.3s ease;
     }
 
+    .right-sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .right-sidebar-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #64748b;
+      transition: all 0.3s ease;
+    }
+
     .overlay {
       display: none;
       position: fixed;
@@ -427,7 +614,7 @@
       right: 0;
       bottom: 0;
       background: rgba(0,0,0,0.5);
-      z-index: 999;
+      z-index: 998;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -438,8 +625,19 @@
     }
 
     /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 1199px) {
+      .main-content {
+        margin-right: 0;
+        padding-right: 24px;
+      }
+    }
+
     @media (max-width: 1023px) {
       .hamburger {
+        display: flex;
+      }
+
+      .right-sidebar-toggle {
         display: flex;
       }
 
@@ -451,15 +649,32 @@
         transform: translateX(0);
       }
 
+      .right-sidebar {
+        transform: translateX(100%);
+      }
+
+      .right-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .right-sidebar.hidden {
+        transform: translateX(100%);
+      }
+
       .main-content {
         margin-left: 0;
         padding: 80px 24px 24px;
+      }
+
+      #hasil {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
     }
 
     @media (max-width: 767px) {
       .main-content {
-        padding: 72px 16px 16px;
+        padding: 80px 16px 16px;
       }
 
       #hasil {
@@ -477,7 +692,7 @@
       }
 
       .chart-card {
-        padding: 16px;
+        padding: 20px;
         border-radius: 16px;
       }
 
@@ -488,16 +703,21 @@
 
     @media (min-width: 1400px) {
       .main-content {
-        max-width: 1200px;
-        margin-left: var(--sidebar-width);
-        margin-right: auto;
+        max-width: 1100px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Hamburger Menu Button -->
+  <!-- Hamburger Menu Button (Left Sidebar) -->
   <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Toggle Button (Right Sidebar) -->
+  <button class="right-sidebar-toggle" id="rightSidebarToggle" aria-label="Toggle form">
     <span></span>
     <span></span>
     <span></span>
@@ -507,7 +727,7 @@
   <div class="overlay" id="overlay"></div>
 
   <div class="app">
-    <!-- Sidebar -->
+    <!-- Left Sidebar -->
     <aside class="sidebar" id="sidebar">
       <!-- Header -->
       <div class="sidebar-header">
@@ -577,36 +797,69 @@
           <span class="menu-label">Generator Edukasi Pasien (PDF)</span>
         </a>
       </div>
+    </aside>
 
-      <!-- Growth Form Panel -->
-      <div class="growth-panel" id="growthPanel">
-        <h3 class="panel-title">Analisa Grafik Pertumbuhan</h3>
-        <p class="panel-desc">Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
-        
+    <!-- Right Sidebar (Growth Form) -->
+    <aside class="right-sidebar" id="rightSidebar">
+      <div class="right-sidebar-header">
+        <h2 class="right-sidebar-title">Analisa Grafik Pertumbuhan (WHO)</h2>
+        <p class="right-sidebar-desc">Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
+      </div>
+
+      <div class="right-sidebar-content">
         <div class="form-card" id="dataInput">
+          <!-- Gender Selection (Radio/Segmented Control) -->
           <div class="form-field">
-            <label for="gender">Jenis Kelamin</label>
-            <select id="gender">
-              <option value="boys">Laki-laki</option>
-              <option value="girls">Perempuan</option>
-            </select>
+            <label>Jenis Kelamin</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="gender-male" name="gender" value="boys" checked>
+                <label for="gender-male">Laki-laki</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="gender-female" name="gender" value="girls">
+                <label for="gender-female">Perempuan</label>
+              </div>
+            </div>
+            <div class="error-message" id="gender-error"></div>
           </div>
+
+          <!-- Age Selection -->
           <div class="form-field">
             <label for="age">Umur (bulan)</label>
-            <select id="age"></select>
+            <select id="age">
+              <!-- Options will be populated by JS -->
+            </select>
+            <div class="error-message" id="age-error"></div>
           </div>
+
+          <!-- Weight Input -->
           <div class="form-field">
             <label for="bb">Berat badan (kg)</label>
-            <input type="number" min="1" step="0.1" value="3.8" id="bb" placeholder="3,8">
+            <input type="number" id="bb" min="0.5" max="50" step="0.1" placeholder="3.8">
+            <div class="error-message" id="weight-error"></div>
           </div>
+
+          <!-- Height/Length Input -->
           <div class="form-field">
-            <label for="tb">Tinggi badan (cm)</label>
-            <input type="number" min="30" step="0.1" value="50" id="tb" placeholder="50">
+            <label for="tb">Tinggi/Panjang badan (cm)</label>
+            <input type="number" id="tb" min="30" max="150" step="0.1" placeholder="50">
+            <div class="error-message" id="height-error"></div>
           </div>
-          <button id="but">Hitung Analisa</button>
+
+          <!-- Toggle: Length vs Height -->
+          <div class="form-field">
+            <div class="toggle-container">
+              <span class="toggle-label" id="position-label">Panjang badan (telentang)</span>
+              <div class="toggle-switch" id="position-toggle"></div>
+            </div>
+          </div>
         </div>
-        
-        <p class="form-note">Grafik akan memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.</p>
+      </div>
+
+      <div class="right-sidebar-footer">
+        <button id="but">Hitung Analisa</button>
+        <p class="form-note">Grafik memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.</p>
       </div>
     </aside>
 
@@ -651,6 +904,8 @@
       var $hamburger = $('#hamburger');
       var $sidebar = $('#sidebar');
       var $overlay = $('#overlay');
+      var $rightSidebar = $('#rightSidebar');
+      var $rightSidebarToggle = $('#rightSidebarToggle');
 
       function openSidebar() {
         $sidebar.addClass('open');
@@ -664,6 +919,18 @@
         $('body').css('overflow', '');
       }
 
+      function openRightSidebar() {
+        $rightSidebar.addClass('open');
+        $overlay.addClass('active');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeRightSidebar() {
+        $rightSidebar.removeClass('open');
+        $overlay.removeClass('active');
+        $('body').css('overflow', '');
+      }
+
       $hamburger.on('click', function() {
         if ($sidebar.hasClass('open')) {
           closeSidebar();
@@ -672,7 +939,18 @@
         }
       });
 
-      $overlay.on('click', closeSidebar);
+      $rightSidebarToggle.on('click', function() {
+        if ($rightSidebar.hasClass('open')) {
+          closeRightSidebar();
+        } else {
+          openRightSidebar();
+        }
+      });
+
+      $overlay.on('click', function() {
+        closeSidebar();
+        closeRightSidebar();
+      });
 
       // Close sidebar when clicking menu items on tablet/mobile
       $('.menu-item').on('click', function(e) {
@@ -682,9 +960,9 @@
         
         var module = $(this).data('module');
         if (module === 'growth') {
-          $('#growthPanel').removeClass('hidden');
+          $rightSidebar.removeClass('hidden');
         } else {
-          $('#growthPanel').addClass('hidden');
+          $rightSidebar.addClass('hidden');
         }
         
         if ($(window).width() < 1024) {
@@ -696,7 +974,77 @@
       $(window).on('resize', function() {
         if ($(window).width() >= 1024) {
           closeSidebar();
+          closeRightSidebar();
         }
+      });
+
+      // Position toggle functionality
+      var isStanding = false;
+      $('#position-toggle').on('click', function() {
+        isStanding = !isStanding;
+        $(this).toggleClass('active');
+        if (isStanding) {
+          $('#position-label').text('Tinggi badan (berdiri)');
+        } else {
+          $('#position-label').text('Panjang badan (telentang)');
+        }
+      });
+
+      // Form validation
+      function validateForm() {
+        var isValid = true;
+        var age = parseFloat($('#age').val());
+        var weight = parseFloat($('#bb').val());
+        var height = parseFloat($('#tb').val());
+
+        // Reset errors
+        $('.form-field input, .form-field select').removeClass('error');
+        $('.error-message').removeClass('visible');
+
+        // Validate weight
+        if (isNaN(weight) || weight <= 0) {
+          $('#bb').addClass('error');
+          $('#weight-error').text('Masukkan berat badan yang valid').addClass('visible');
+          isValid = false;
+        } else if (weight > 50) {
+          $('#bb').addClass('error');
+          $('#weight-error').text('Berat badan terlalu tinggi').addClass('visible');
+          isValid = false;
+        }
+
+        // Validate height
+        if (isNaN(height) || height <= 0) {
+          $('#tb').addClass('error');
+          $('#height-error').text('Masukkan tinggi/panjang badan yang valid').addClass('visible');
+          isValid = false;
+        } else if (height < 30 || height > 150) {
+          $('#tb').addClass('error');
+          $('#height-error').text('Nilai di luar rentang normal (30-150 cm)').addClass('visible');
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      // Override button click to include validation
+      $('#but').on('click', function(e) {
+        e.preventDefault();
+        if (validateForm()) {
+          // Clear errors and proceed
+          $('.form-field input, .form-field select').removeClass('error');
+          $('.error-message').removeClass('visible');
+          
+          // Trigger the original interpret function
+          if (typeof interpret === 'function' && dataReady) {
+            interpret();
+          }
+        }
+      });
+
+      // Real-time validation on input change
+      $('#bb, #tb').on('input', function() {
+        $(this).removeClass('error');
+        $(this).siblings('.error-message').removeClass('visible');
       });
     });
   </script>
