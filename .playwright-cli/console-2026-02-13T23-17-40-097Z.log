@@ -1,0 +1,9 @@
+[     212ms] TypeError: Cannot read properties of undefined (reading 'length')
+    at get_prop (http://localhost:8080/main.js:24:18)
+    at interpret (http://localhost:8080/main.js:163:7)
+    at Object.success (http://localhost:8080/main.js:9:5)
+    at i (http://localhost:8080/jquery-2.2.0.min.js:2:27065)
+    at Object.fireWith [as resolveWith] (http://localhost:8080/jquery-2.2.0.min.js:2:27828)
+    at z (http://localhost:8080/jquery-2.2.0.min.js:4:11827)
+    at XMLHttpRequest.<anonymous> (http://localhost:8080/jquery-2.2.0.min.js:4:15387)
+[  115964ms] [ERROR] Data not found for: boys wfl NaN @ http://localhost:8080/main.js:48

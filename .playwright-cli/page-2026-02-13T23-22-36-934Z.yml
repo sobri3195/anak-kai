@@ -1,0 +1,98 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: 👶
+        - heading "Anak-kai" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Clinical tools offline, berjalan penuh di browser
+    - generic [ref=e9]:
+      - paragraph [ref=e10]: Modul Klinis
+      - link "📊 Analisa Grafik Pertumbuhan (WHO)" [ref=e11] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: 📊
+        - generic [ref=e13]: Analisa Grafik Pertumbuhan (WHO)
+      - link "🧩 Skrining Perkembangan (KPSP/ASQ)" [ref=e14] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e15]: 🧩
+        - generic [ref=e16]: Skrining Perkembangan (KPSP/ASQ)
+      - link "🩸 Skrining Anemia (Hb)" [ref=e17] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e18]: 🩸
+        - generic [ref=e19]: Skrining Anemia (Hb)
+      - link "💊 Kalkulator Dosis Obat Anak" [ref=e20] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e21]: 💊
+        - generic [ref=e22]: Kalkulator Dosis Obat Anak
+      - link "💧 Skrining Dehidrasi & Diare" [ref=e23] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e24]: 💧
+        - generic [ref=e25]: Skrining Dehidrasi & Diare
+      - link "💉 Imunisasi" [ref=e26] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e27]: 💉
+        - generic [ref=e28]: Imunisasi
+      - link "🌡️ Kalkulator Status Demam" [ref=e29] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e30]: 🌡️
+        - generic [ref=e31]: Kalkulator Status Demam
+      - link "⚖️ BMI & Risiko Metabolik" [active] [ref=e32] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e33]: ⚖️
+        - generic [ref=e34]: BMI & Risiko Metabolik
+      - link "🧪 Cairan Maintenance (Holliday–Segar)" [ref=e35] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e36]: 🧪
+        - generic [ref=e37]: Cairan Maintenance (Holliday–Segar)
+      - link "⚠️ Skor Risiko (Rule-based)" [ref=e38] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e39]: ⚠️
+        - generic [ref=e40]: Skor Risiko (Rule-based)
+      - link "📄 Generator Edukasi Pasien (PDF)" [ref=e41] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e42]: 📄
+        - generic [ref=e43]: Generator Edukasi Pasien (PDF)
+  - main [ref=e44]:
+    - generic [ref=e190]:
+      - generic [ref=e191]:
+        - generic [ref=e192]:
+          - heading "BMI & Risiko Metabolik" [level=2] [ref=e193]
+          - paragraph [ref=e194]: Hitung Indeks Massa Tubuh (BMI) dan kategori risiko metabolik berdasarkan usia dan数据进行综合评估.
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - generic [ref=e197]: Umur (bulan)
+            - spinbutton "Umur (bulan)" [ref=e198]
+          - generic [ref=e199]:
+            - generic [ref=e200]: Jenis Kelamin
+            - combobox "Jenis Kelamin" [ref=e201]:
+              - option "Laki-laki" [selected]
+              - option "Perempuan"
+          - generic [ref=e202]:
+            - generic [ref=e203]: Berat badan (kg)
+            - spinbutton "Berat badan (kg)" [ref=e204]
+          - generic [ref=e205]:
+            - generic [ref=e206]: Tinggi badan (cm)
+            - spinbutton "Tinggi badan (cm)" [ref=e207]
+        - generic [ref=e208]:
+          - button "Hitung BMI" [ref=e209]
+          - paragraph [ref=e210]: BMI adalah indikator awal, bukan penentu tunggal status gizi.
+      - generic [ref=e211]:
+        - heading "Hasil Kalkulasi BMI" [level=2] [ref=e212]
+        - paragraph [ref=e213]: Masukkan data untuk melihat hasil BMI.
+      - generic [ref=e214]:
+        - heading "ℹ️ Tentang BMI Anak" [level=4] [ref=e215]
+        - list [ref=e216]:
+          - listitem [ref=e217]:
+            - strong [ref=e218]: "BMI anak berbeda:"
+            - text: Tidak sama dengan dewasa, menggunakan persentil berdasarkan usia dan jenis kelamin
+          - listitem [ref=e219]:
+            - strong [ref=e220]: "Interpretasi:"
+            - text: BMI bukan diagnosis, perlu evaluasi klinis lengkap
+          - listitem [ref=e221]:
+            - strong [ref=e222]: "Faktor lain:"
+            - text: Aktivitas fisik, pola makan, riwayat keluarga juga penting
+          - listitem [ref=e223]:
+            - strong [ref=e224]: "Pemantauan:"
+            - text: Ukur BMI secara berkala untuk melihat tren perkembangan
+          - listitem [ref=e225]:
+            - strong [ref=e226]: "Kapan ke dokter:"
+            - text: Jika BMI sangat rendah atau tinggi, atau terjadi perubahan tiba-tiba
