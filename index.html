@@ -1,0 +1,27 @@
+<html>
+  <head>
+      <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
+      <script src="canvas.js"></script>
+      <script type="text/javascript" src="main.js"></script>
+      <title>Grafik Pertumbuhan</title>
+  </head>
+  <body>
+    <div id="dataInput">
+      <label for="gender">Jenis Kelamin: </label>
+      <select id="gender">
+        <option value="boys">Laki-laki</option>
+        <option value="girls">Perempuan</option>
+      </select><br/>
+      <label for="age">Umur (bulan): </label><select width=5 id="age"></select><br/>
+      <label for="bb">Berat badan (kg): </label><input width=5 type="text" value="3.8" id="bb"></input><br/>
+      <label for="tb">Tinggi badan (cm): </label><input width=5 type="text" value="50" id="tb"></input><br/>
+      <button id="but">Hitung</button>
+    </div>
+    <div id="hasil">
+
+    </div>
+    <canvas id="img1" width=800 height=600>    </canvas>
+    <canvas id="img2" width=800 height=600>    </canvas>
+    <canvas id="img3" width=800 height=600>    </canvas>
+  </body>
+</html>
