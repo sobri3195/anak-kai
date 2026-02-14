@@ -313,21 +313,27 @@ function initDrugModule() {
     // Validate weight
     if (!weight || weight < 2 || weight > 30) {
       drugContent.querySelector('#drug-weight').classList.add('error');
-      drugContent.querySelector('#drug-weight-error').textContent = 'Masukkan berat badan yang valid (2-30 kg)'.addClass('visible');
+      const weightError = drugContent.querySelector('#drug-weight-error');
+      weightError.textContent = 'Masukkan berat badan yang valid (2-30 kg)';
+      weightError.classList.add('visible');
       isValid = false;
     }
 
     // Validate age
     if (age === '' || age < 0 || age > 71) {
       drugContent.querySelector('#drug-age').classList.add('error');
-      drugContent.querySelector('#drug-age-error').textContent = 'Masukkan umur yang valid (0-71 bulan)'.addClass('visible');
+      const ageError = drugContent.querySelector('#drug-age-error');
+      ageError.textContent = 'Masukkan umur yang valid (0-71 bulan)';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate drug selection
     if (!drug) {
       drugContent.querySelector('#drug-select').classList.add('error');
-      drugContent.querySelector('#drug-select-error').textContent = 'Silakan pilih obat'.addClass('visible');
+      const drugError = drugContent.querySelector('#drug-select-error');
+      drugError.textContent = 'Silakan pilih obat';
+      drugError.classList.add('visible');
       isValid = false;
     }
 

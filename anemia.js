@@ -289,21 +289,27 @@ function initAnemiaModule() {
     // Validate age
     if (!age || age < 6 || age > 59) {
       anemiaContent.querySelector('#anemia-age').classList.add('error');
-      anemiaContent.querySelector('#anemia-age-error').textContent = 'Umur harus antara 6-59 bulan'.addClass('visible');
+      const ageError = anemiaContent.querySelector('#anemia-age-error');
+      ageError.textContent = 'Umur harus antara 6-59 bulan';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate weight
     if (!weight || weight < 2 || weight > 30) {
       anemiaContent.querySelector('#anemia-weight').classList.add('error');
-      anemiaContent.querySelector('#anemia-weight-error').textContent = 'Masukkan berat badan yang valid (2-30 kg)'.addClass('visible');
+      const weightError = anemiaContent.querySelector('#anemia-weight-error');
+      weightError.textContent = 'Masukkan berat badan yang valid (2-30 kg)';
+      weightError.classList.add('visible');
       isValid = false;
     }
 
     // Validate Hb
     if (!hb || hb < 4 || hb > 20) {
       anemiaContent.querySelector('#anemia-hb').classList.add('error');
-      anemiaContent.querySelector('#anemia-hb-error').textContent = 'Masukkan kadar Hb yang valid (4-20 g/dL)'.addClass('visible');
+      const hbError = anemiaContent.querySelector('#anemia-hb-error');
+      hbError.textContent = 'Masukkan kadar Hb yang valid (4-20 g/dL)';
+      hbError.classList.add('visible');
       isValid = false;
     }
 

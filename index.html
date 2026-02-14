@@ -1932,11 +1932,11 @@
         
         switch(module) {
           case 'growth':
-            $('#growthContent').removeClass('hidden');
+            $('#growthContent').show();
             break;
             
           case 'kpsp':
-            $('#kpspContent').addClass('active');
+            $('#kpspContent').show().addClass('active');
             if (!kpspInitialized) {
               initKPSP();
             }
@@ -1993,10 +1993,8 @@
       }
 
       function hideAllModules() {
-        $('.main-content').find('[class$="-content"]').each(function() {
-          if (!$(this).hasClass('growth-content') && !$(this).hasClass('kpsp-content') && !$(this).hasClass('module-placeholder')) {
-            $(this).hide();
-          }
+        $('.main-content').find('[class*="-content"]').each(function() {
+          $(this).hide().removeClass('active');
         });
         $('#modulePlaceholder').hide();
       }

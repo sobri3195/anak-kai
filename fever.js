@@ -384,21 +384,27 @@ function initFeverModule() {
     // Validate age
     if (age === '' || age < 0 || age > 2159) {
       feverContent.querySelector('#fever-age').classList.add('error');
-      feverContent.querySelector('#fever-age-error').textContent = 'Masukkan umur yang valid'.addClass('visible');
+      const ageError = feverContent.querySelector('#fever-age-error');
+      ageError.textContent = 'Masukkan umur yang valid';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate temperature
     if (!temperature || temperature < 35 || temperature > 42) {
       feverContent.querySelector('#fever-temp').classList.add('error');
-      feverContent.querySelector('#fever-temp-error').textContent = 'Masukkan suhu yang valid (35-42°C)'.addClass('visible');
+      const tempError = feverContent.querySelector('#fever-temp-error');
+      tempError.textContent = 'Masukkan suhu yang valid (35-42°C)';
+      tempError.classList.add('visible');
       isValid = false;
     }
 
     // Validate duration
     if (duration === '' || duration < 0 || duration > 720) {
       feverContent.querySelector('#fever-duration').classList.add('error');
-      feverContent.querySelector('#fever-duration-error').textContent = 'Masukkan durasi yang valid'.addClass('visible');
+      const durationError = feverContent.querySelector('#fever-duration-error');
+      durationError.textContent = 'Masukkan durasi yang valid';
+      durationError.classList.add('visible');
       isValid = false;
     }
 
