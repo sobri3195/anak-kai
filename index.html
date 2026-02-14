@@ -61,12 +61,37 @@
       height: 100vh;
       background: var(--bg-sidebar);
       color: var(--text-light);
-      overflow-y: auto;
-      overflow-x: hidden;
+      overflow: hidden;
       z-index: 1000;
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease;
+    }
+
+    /* Smooth scrolling for sidebar content */
+    .sidebar-scroll {
+      overflow-y: auto;
+      overflow-x: hidden;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.3);
     }
 
     .sidebar-header {
@@ -112,7 +137,6 @@
     /* ==================== MENU MODULES ==================== */
     .menu-section {
       padding: 16px 12px;
-      flex: 1;
     }
 
     .menu-title {
@@ -356,6 +380,140 @@
       display: block;
     }
 
+    /* ==================== BUTTON STYLES ==================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Primary Button */
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    /* Secondary Button */
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    /* Success Button */
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Warning Button */
+    .btn-warning {
+      background: var(--warning);
+      color: #fff;
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background: #d97706;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Danger Button */
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #dc2626;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Ghost Button */
+    .btn-ghost {
+      background: transparent;
+      color: #64748b;
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    /* Button Sizes */
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .btn-lg {
+      padding: 16px 28px;
+      font-size: 16px;
+      border-radius: 14px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* Icon Button */
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 10px;
+    }
+
+    .btn-icon.btn-sm {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .btn-icon.btn-lg {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
     /* Submit Button */
     .form-actions {
       display: flex;
@@ -365,7 +523,6 @@
 
     #but {
       width: 100%;
-      padding: 16px 24px;
       background: var(--primary);
       color: #fff;
       border: none;
@@ -374,14 +531,17 @@
       font-size: 16px;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
+      padding: 16px 24px;
     }
 
     #but:hover {
       background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
     }
 
     #but:active {
-      transform: translateY(1px);
+      transform: translateY(0);
     }
 
     .form-note {
@@ -558,13 +718,24 @@
       height: 44px;
       background: var(--bg-sidebar);
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      padding: 10px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .hamburger:hover {
+      background: #1e293b;
+      transform: scale(1.05);
+    }
+
+    .hamburger:active {
+      transform: scale(0.95);
     }
 
     .hamburger span {
@@ -573,6 +744,40 @@
       height: 2px;
       background: #fff;
       transition: all 0.3s ease;
+      border-radius: 1px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile sidebar scroll hint */
+    .sidebar-scroll-hint {
+      display: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      pointer-events: none;
+      animation: fadeInOut 2s ease-in-out infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
 
     .overlay {
@@ -611,10 +816,15 @@
 
       .sidebar {
         transform: translateX(-100%);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
       }
 
       .sidebar.open {
         transform: translateX(0);
+      }
+
+      .sidebar-scroll-hint {
+        display: block;
       }
 
       .main-content {
@@ -631,6 +841,16 @@
       .form-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+      }
+
+      /* Mobile-specific button styles */
+      .btn {
+        min-height: 44px; /* Touch target minimum */
+      }
+
+      .btn-icon {
+        min-height: 44px;
+        min-width: 44px;
       }
     }
 
@@ -720,8 +940,7 @@
       margin-bottom: 8px;
     }
 
-    .kpsp-form-field select,
-    .kpsp-form-field button {
+    .kpsp-form-field select {
       width: 100%;
       padding: 14px 16px;
       border-radius: 12px;
@@ -730,19 +949,35 @@
       color: #1e293b;
       font-size: 15px;
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .kpsp-form-field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
     }
 
     .kpsp-form-field button {
+      width: 100%;
       background: var(--primary);
       color: white;
       border: none;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 15px;
     }
 
-    .kpsp-form-field button:hover {
+    .kpsp-form-field button:hover:not(:disabled) {
       background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    }
+
+    .kpsp-form-field button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     .kpsp-questionnaire {
@@ -1083,6 +1318,118 @@
       color: #64748b;
       line-height: 1.6;
     }
+
+    /* ==================== MODULE CONTENT BASE STYLES ==================== */
+    .module-content {
+      display: none;
+    }
+
+    .module-content.active {
+      display: block;
+    }
+
+    /* Module header styling */
+    .module-header {
+      margin-bottom: 28px;
+    }
+
+    .module-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      color: #1e293b;
+    }
+
+    .module-desc {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Module card styling */
+    .module-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+
+    /* Module result styling */
+    .module-result {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .module-result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .module-result-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    /* Module loading state */
+    .module-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+      color: #64748b;
+    }
+
+    .module-loading::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      margin-left: 12px;
+      border: 3px solid #e2e8f0;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Module development notice */
+    .module-dev-notice {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .module-dev-notice-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .module-dev-notice h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      color: #92400e;
+    }
+
+    .module-dev-notice p {
+      margin: 0;
+      font-size: 14px;
+      color: #b45309;
+    }
   </style>
 </head>
 <body>
@@ -1108,64 +1455,71 @@
         <p class="sidebar-desc">Clinical tools offline, berjalan penuh di browser</p>
       </div>
 
-      <!-- Menu Modules -->
-      <div class="menu-section">
-        <p class="menu-title">Modul Klinis</p>
+      <!-- Menu Modules with Scrollable Container -->
+      <div class="sidebar-scroll">
+        <div class="menu-section">
+          <p class="menu-title">Modul Klinis</p>
+          
+          <a href="#" class="menu-item active" data-module="growth">
+            <span class="menu-icon">📊</span>
+            <span class="menu-label">Analisa Grafik Pertumbuhan (WHO)</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="kpsp">
+            <span class="menu-icon">🧩</span>
+            <span class="menu-label">Skrining Perkembangan (KPSP/ASQ)</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="anemia">
+            <span class="menu-icon">🩸</span>
+            <span class="menu-label">Skrining Anemia (Hb)</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="drug">
+            <span class="menu-icon">💊</span>
+            <span class="menu-label">Kalkulator Dosis Obat Anak</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="dehydration">
+            <span class="menu-icon">💧</span>
+            <span class="menu-label">Skrining Dehidrasi & Diare</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="immunization">
+            <span class="menu-icon">💉</span>
+            <span class="menu-label">Imunisasi</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="fever">
+            <span class="menu-icon">🌡️</span>
+            <span class="menu-label">Kalkulator Status Demam</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="bmi">
+            <span class="menu-icon">⚖️</span>
+            <span class="menu-label">BMI & Risiko Metabolik</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="fluid">
+            <span class="menu-icon">🧪</span>
+            <span class="menu-label">Cairan Maintenance (Holliday–Segar)</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="risk">
+            <span class="menu-icon">⚠️</span>
+            <span class="menu-label">Skor Risiko (Rule-based)</span>
+          </a>
+          
+          <a href="#" class="menu-item" data-module="education">
+            <span class="menu-icon">📄</span>
+            <span class="menu-label">Generator Edukasi Pasien (PDF)</span>
+          </a>
+        </div>
         
-        <a href="#" class="menu-item active" data-module="growth">
-          <span class="menu-icon">📊</span>
-          <span class="menu-label">Analisa Grafik Pertumbuhan (WHO)</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="kpsp">
-          <span class="menu-icon">🧩</span>
-          <span class="menu-label">Skrining Perkembangan (KPSP/ASQ)</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="anemia">
-          <span class="menu-icon">🩸</span>
-          <span class="menu-label">Skrining Anemia (Hb)</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="drug">
-          <span class="menu-icon">💊</span>
-          <span class="menu-label">Kalkulator Dosis Obat Anak</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="dehydration">
-          <span class="menu-icon">💧</span>
-          <span class="menu-label">Skrining Dehidrasi & Diare</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="immunization">
-          <span class="menu-icon">💉</span>
-          <span class="menu-label">Imunisasi</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="fever">
-          <span class="menu-icon">🌡️</span>
-          <span class="menu-label">Kalkulator Status Demam</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="bmi">
-          <span class="menu-icon">⚖️</span>
-          <span class="menu-label">BMI & Risiko Metabolik</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="fluid">
-          <span class="menu-icon">🧪</span>
-          <span class="menu-label">Cairan Maintenance (Holliday–Segar)</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="risk">
-          <span class="menu-icon">⚠️</span>
-          <span class="menu-label">Skor Risiko (Rule-based)</span>
-        </a>
-        
-        <a href="#" class="menu-item" data-module="education">
-          <span class="menu-icon">📄</span>
-          <span class="menu-label">Generator Edukasi Pasien (PDF)</span>
-        </a>
+        <!-- Scroll hint for mobile -->
+        <div class="sidebar-scroll-hint">
+          ← Scroll untuk melihat lebih banyak →
+        </div>
       </div>
     </aside>
 
@@ -1375,6 +1729,155 @@
   </div>
 
   <script>
+    // ==================== MODULE REGISTRY ====================
+    // Use this registry to add new modules easily
+    // Format: { name: 'module-name', init: function, label: 'Display Label' }
+    const ModuleRegistry = {
+      modules: {},
+      
+      // Register a new module
+      register: function(config) {
+        this.modules[config.name] = {
+          init: config.init || function() {},
+          label: config.label || config.name,
+          icon: config.icon || '📦',
+          description: config.description || ''
+        };
+      },
+      
+      // Get all registered modules
+      getAll: function() {
+        return Object.keys(this.modules).map(function(key) {
+          return { name: key, ...this.modules[key] };
+        }.bind(this));
+      },
+      
+      // Initialize a specific module
+      init: function(name) {
+        if (this.modules[name] && this.modules[name].init) {
+          this.modules[name].init();
+        }
+      },
+      
+      // Check if module is registered
+      has: function(name) {
+        return !!this.modules[name];
+      }
+    };
+
+    // Helper function to create module content HTML
+    function createModuleContent(moduleName, title, icon) {
+      return '<div class="' + moduleName + '-content module-content" style="display: none;">' +
+        '<div class="module-placeholder">' +
+        '<div class="module-placeholder-icon">' + icon + '</div>' +
+        '<h2>' + title + '</h2>' +
+        '<p>Modul dalam pengembangan</p>' +
+        '</div>' +
+        '</div>';
+    }
+
+    // Helper function to add module to sidebar programmatically
+    function addModuleToSidebar(moduleName, label, icon) {
+      var menuSection = $('.menu-section');
+      var menuTitle = menuSection.find('.menu-title');
+      
+      var menuItem = $('<a>')
+        .attr('href', '#')
+        .attr('class', 'menu-item')
+        .attr('data-module', moduleName)
+        .html('<span class="menu-icon">' + icon + '</span><span class="menu-label">' + label + '</span>');
+      
+      menuSection.append(menuItem);
+      
+      // Add click handler
+      menuItem.on('click', function(e) {
+        e.preventDefault();
+        $('.menu-item').removeClass('active');
+        $(this).addClass('active');
+        
+        hideAllModules();
+        showModule(moduleName);
+        
+        if ($(window).width() < 1024) {
+          closeSidebarMobile();
+        }
+      });
+    }
+
+    // Function to close sidebar on mobile
+    function closeSidebarMobile() {
+      $('#sidebar').removeClass('open');
+      $('#overlay').removeClass('active');
+      $('body').css('overflow', '');
+      $('#hamburger').removeClass('active');
+    }
+
+    // ==================== EXISTING MODULES ====================
+    // Register existing modules with the new system
+    ModuleRegistry.register({
+      name: 'anemia',
+      init: function() { initAnemiaModule(); },
+      label: 'Skrining Anemia (Hb)',
+      icon: '🩸'
+    });
+
+    ModuleRegistry.register({
+      name: 'drug',
+      init: function() { initDrugModule(); },
+      label: 'Kalkulator Dosis Obat Anak',
+      icon: '💊'
+    });
+
+    ModuleRegistry.register({
+      name: 'dehydration',
+      init: function() { initDehydrationModule(); },
+      label: 'Skrining Dehidrasi & Diare',
+      icon: '💧'
+    });
+
+    ModuleRegistry.register({
+      name: 'immunization',
+      init: function() { initImmunizationModule(); },
+      label: 'Imunisasi',
+      icon: '💉'
+    });
+
+    ModuleRegistry.register({
+      name: 'fever',
+      init: function() { initFeverModule(); },
+      label: 'Kalkulator Status Demam',
+      icon: '🌡️'
+    });
+
+    ModuleRegistry.register({
+      name: 'bmi',
+      init: function() { initBMIModule(); },
+      label: 'BMI & Risiko Metabolik',
+      icon: '⚖️'
+    });
+
+    ModuleRegistry.register({
+      name: 'fluid',
+      init: function() { initFluidModule(); },
+      label: 'Cairan Maintenance (Holliday–Segar)',
+      icon: '🧪'
+    });
+
+    ModuleRegistry.register({
+      name: 'risk',
+      init: function() { initRiskModule(); },
+      label: 'Skor Risiko (Rule-based)',
+      icon: '⚠️'
+    });
+
+    ModuleRegistry.register({
+      name: 'education',
+      init: function() { initEducationModule(); },
+      label: 'Generator Edukasi Pasien (PDF)',
+      icon: '📄'
+    });
+
+    // ==================== SIDEBAR FUNCTIONALITY ====================
     // Sidebar toggle functionality
     $(document).ready(function() {
       var $hamburger = $('#hamburger');
@@ -1396,8 +1899,10 @@
       $hamburger.on('click', function() {
         if ($sidebar.hasClass('open')) {
           closeSidebar();
+          $hamburger.removeClass('active');
         } else {
           openSidebar();
+          $hamburger.addClass('active');
         }
       });
 
@@ -1405,135 +1910,102 @@
         closeSidebar();
       });
 
-      // Menu navigation
+      // Menu navigation using module registry
       $('.menu-item').on('click', function(e) {
         e.preventDefault();
         $('.menu-item').removeClass('active');
         $(this).addClass('active');
         
         var module = $(this).data('module');
-        var moduleName = $(this).find('.menu-label').text();
         
-        if (module === 'growth') {
-          // Show growth content
-          $('#growthContent').removeClass('hidden');
-          $('#kpspContent').removeClass('active');
-          $('.module-placeholder').hide();
-          hideAllModules();
-        } else if (module === 'kpsp') {
-          // Show KPSP content
-          $('#growthContent').addClass('hidden');
-          $('#kpspContent').addClass('active');
-          $('.module-placeholder').hide();
-          hideAllModules();
-          initKPSP();
-        } else {
-          // For other modules, show the module content
-          $('#growthContent').addClass('hidden');
-          $('#kpspContent').removeClass('active');
-          $('.module-placeholder').hide();
-          hideAllModules();
-          
-          // Show the specific module
-          showModule(module);
-        }
+        // Use unified module switching
+        switchModule(module);
         
         if ($(window).width() < 1024) {
-          closeSidebar();
+          closeSidebarMobile();
         }
       });
+
+      // Unified module switching function
+      function switchModule(module) {
+        hideAllModules();
+        
+        switch(module) {
+          case 'growth':
+            $('#growthContent').removeClass('hidden');
+            break;
+            
+          case 'kpsp':
+            $('#kpspContent').addClass('active');
+            if (!kpspInitialized) {
+              initKPSP();
+            }
+            break;
+            
+          default:
+            // Check if module is registered, if not show placeholder
+            if (ModuleRegistry.has(module)) {
+              ModuleRegistry.init(module);
+              showModule(module);
+            } else {
+              showModulePlaceholder(module);
+            }
+            break;
+        }
+      }
+
+      // Show module placeholder for modules under development
+      function showModulePlaceholder(module) {
+        var moduleInfo = {
+          'anemia': { icon: '🩸', title: 'Skrining Anemia (Hb)', desc: 'Menentukan status anemia berdasarkan kadar Hb anak' },
+          'drug': { icon: '💊', title: 'Kalkulator Dosis Obat Anak', desc: 'Menghitung dosis obat yang tepat berdasarkan berat badan anak' },
+          'dehydration': { icon: '💧', title: 'Skrining Dehidrasi & Diare', desc: 'Menilai tingkat dehidrasi dan menentukan penanganan' },
+          'immunization': { icon: '💉', title: 'Imunisasi', desc: 'Jadwal imunisasi dan pencatatan vaccine' },
+          'fever': { icon: '🌡️', title: 'Kalkulator Status Demam', desc: 'Menilai dan mengkalkulasi penanganan demam' },
+          'bmi': { icon: '⚖️', title: 'BMI & Risiko Metabolik', desc: 'Menghitung BMI dan menilai risiko metabolik' },
+          'fluid': { icon: '🧪', title: 'Cairan Maintenance', desc: 'Kalkulator cairan maintenance (Holliday–Segar)' },
+          'risk': { icon: '⚠️', title: 'Skor Risiko (Rule-based)', desc: 'Penilaian risiko berdasarkan rule-based system' },
+          'education': { icon: '📄', title: 'Generator Edukasi Pasien', desc: 'Generator materi edukasi pasien dalam format PDF' }
+        };
+        
+        var info = moduleInfo[module] || { icon: '🚧', title: 'Modul Baru', desc: 'Modul dalam pengembangan' };
+        
+        $('#placeholderIcon').text(info.icon);
+        $('#placeholderTitle').text(info.title);
+        $('#placeholderDesc').text(info.desc + '. Fitur ini akan segera hadir.');
+        $('#modulePlaceholder').show();
+      }
 
       // Initialize all modules on page load
       var moduleInstances = {};
 
-      function initAnemia() {
-        if (!moduleInstances.anemia) {
-          moduleInstances.anemia = initAnemiaModule();
-        }
-      }
-
-      function initDrug() {
-        if (!moduleInstances.drug) {
-          moduleInstances.drug = initDrugModule();
-        }
-      }
-
-      function initDehydration() {
-        if (!moduleInstances.dehydration) {
-          moduleInstances.dehydration = initDehydrationModule();
-        }
-      }
-
-      function initImmunization() {
-        if (!moduleInstances.immunization) {
-          moduleInstances.immunization = initImmunizationModule();
-        }
-      }
-
-      function initFever() {
-        if (!moduleInstances.fever) {
-          moduleInstances.fever = initFeverModule();
-        }
-      }
-
-      function initBMI() {
-        if (!moduleInstances.bmi) {
-          moduleInstances.bmi = initBMIModule();
-        }
-      }
-
-      function initFluid() {
-        if (!moduleInstances.fluid) {
-          moduleInstances.fluid = initFluidModule();
-        }
-      }
-
-      function initRisk() {
-        if (!moduleInstances.risk) {
-          moduleInstances.risk = initRiskModule();
-        }
-      }
-
-      function initEducation() {
-        if (!moduleInstances.education) {
-          moduleInstances.education = initEducationModule();
-        }
-      }
-
       function showModule(moduleName) {
-        var moduleMap = {
-          'anemia': initAnemia,
-          'drug': initDrug,
-          'dehydration': initDehydration,
-          'immunization': initImmunization,
-          'fever': initFever,
-          'bmi': initBMI,
-          'fluid': initFluid,
-          'risk': initRisk,
-          'education': initEducation
-        };
-
-        if (moduleMap[moduleName]) {
-          moduleMap[moduleName]();
-          var content = $('.main-content').find('.' + moduleName + '-content');
-          if (content.length > 0) {
-            content.show();
-          }
+        // Try to initialize module from registry first
+        if (ModuleRegistry.has(moduleName)) {
+          ModuleRegistry.init(moduleName);
+        }
+        
+        // Show the module content
+        var content = $('.main-content').find('.' + moduleName + '-content');
+        if (content.length > 0) {
+          content.show();
         }
       }
 
       function hideAllModules() {
         $('.main-content').find('[class$="-content"]').each(function() {
-          if (!$(this).hasClass('growth-content') && !$(this).hasClass('kpsp-content')) {
+          if (!$(this).hasClass('growth-content') && !$(this).hasClass('kpsp-content') && !$(this).hasClass('module-placeholder')) {
             $(this).hide();
           }
         });
+        $('#modulePlaceholder').hide();
       }
 
       // Close sidebar on window resize to desktop
       $(window).on('resize', function() {
         if ($(window).width() >= 1024) {
           closeSidebar();
+          $hamburger.removeClass('active');
         }
       });
 
@@ -1825,6 +2297,39 @@
 
         $('#kpsp-category-breakdown').html(breakdownHtml);
       }
+
+      // ==================== HOW TO ADD NEW MODULES ====================
+      // Example: Adding a new module called "newmodule"
+      //
+      // 1. Add the menu item in HTML:
+      //    <a href="#" class="menu-item" data-module="newmodule">
+      //      <span class="menu-icon">🔧</span>
+      //      <span class="menu-label">Nama Modul Baru</span>
+      //    </a>
+      //
+      // 2. Register the module (after ModuleRegistry definition):
+      //    ModuleRegistry.register({
+      //      name: 'newmodule',
+      //      init: function() { 
+      //        // Your module initialization code here
+      //      },
+      //      label: 'Nama Modul Baru',
+      //      icon: '🔧',
+      //      description: 'Deskripsi modul'
+      //    });
+      //
+      // 3. Add module info to showModulePlaceholder function:
+      //    'newmodule': { 
+      //      icon: '🔧', 
+      //      title: 'Nama Modul Baru', 
+      //      desc: 'Deskripsi fitur' 
+      //    }
+      //
+      // 4. Optionally add CSS styles for your module elements
+      //
+      // The module will automatically appear in the sidebar and 
+      // the switchModule function will handle showing/hiding content.
+
     });
   </script>
 </body>
