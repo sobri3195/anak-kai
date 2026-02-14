@@ -2,7 +2,7 @@ var data;
 var dataReady = false;
 var domReady = false;
 
-$.getJSON("data copy.json", function(d) {
+$.getJSON("data.json", function(d) {
   data = d;
   dataReady = true;
   if (domReady) {
