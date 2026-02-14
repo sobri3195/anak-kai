@@ -424,14 +424,18 @@ function initImmunizationModule() {
     // Validate age
     if (age === '' || age < 0 || age > 71) {
       immunizationContent.querySelector('#immunization-age').classList.add('error');
-      immunizationContent.querySelector('#immunization-age-error').textContent = 'Masukkan umur yang valid (0-71 bulan)'.addClass('visible');
+      const ageError = immunizationContent.querySelector('#immunization-age-error');
+      ageError.textContent = 'Masukkan umur yang valid (0-71 bulan)';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate birth date
     if (!birthDate) {
       immunizationContent.querySelector('#immunization-birth-date').classList.add('error');
-      immunizationContent.querySelector('#immunization-birth-date-error').textContent = 'Masukkan tanggal lahir'.addClass('visible');
+      const birthDateError = immunizationContent.querySelector('#immunization-birth-date-error');
+      birthDateError.textContent = 'Masukkan tanggal lahir';
+      birthDateError.classList.add('visible');
       isValid = false;
     }
 

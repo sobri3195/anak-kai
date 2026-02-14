@@ -317,21 +317,27 @@ function initBMIModule() {
     // Validate age
     if (age === '' || age < 0 || age > 2159) {
       bmiContent.querySelector('#bmi-age').classList.add('error');
-      bmiContent.querySelector('#bmi-age-error').textContent = 'Masukkan umur yang valid'.addClass('visible');
+      const ageError = bmiContent.querySelector('#bmi-age-error');
+      ageError.textContent = 'Masukkan umur yang valid';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate weight
     if (!weight || weight < 2 || weight > 50) {
       bmiContent.querySelector('#bmi-weight').classList.add('error');
-      bmiContent.querySelector('#bmi-weight-error').textContent = 'Masukkan berat badan yang valid (2-50 kg)'.addClass('visible');
+      const weightError = bmiContent.querySelector('#bmi-weight-error');
+      weightError.textContent = 'Masukkan berat badan yang valid (2-50 kg)';
+      weightError.classList.add('visible');
       isValid = false;
     }
 
     // Validate height
     if (!height || height < 40 || height > 180) {
       bmiContent.querySelector('#bmi-height').classList.add('error');
-      bmiContent.querySelector('#bmi-height-error').textContent = 'Masukkan tinggi badan yang valid (40-180 cm)'.addClass('visible');
+      const heightError = bmiContent.querySelector('#bmi-height-error');
+      heightError.textContent = 'Masukkan tinggi badan yang valid (40-180 cm)';
+      heightError.classList.add('visible');
       isValid = false;
     }
 

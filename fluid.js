@@ -355,21 +355,27 @@ function initFluidModule() {
     // Validate weight
     if (!weight || weight < 2 || weight > 50) {
       fluidContent.querySelector('#fluid-weight').classList.add('error');
-      fluidContent.querySelector('#fluid-weight-error').textContent = 'Masukkan berat badan yang valid (2-50 kg)'.addClass('visible');
+      const weightError = fluidContent.querySelector('#fluid-weight-error');
+      weightError.textContent = 'Masukkan berat badan yang valid (2-50 kg)';
+      weightError.classList.add('visible');
       isValid = false;
     }
 
     // Validate age
     if (age === '' || age < 0 || age > 2159) {
       fluidContent.querySelector('#fluid-age').classList.add('error');
-      fluidContent.querySelector('#fluid-age-error').textContent = 'Masukkan umur yang valid'.addClass('visible');
+      const ageError = fluidContent.querySelector('#fluid-age-error');
+      ageError.textContent = 'Masukkan umur yang valid';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate intake if provided
     if (intake !== null && (intake < 0 || intake > 500)) {
       fluidContent.querySelector('#fluid-intake').classList.add('error');
-      fluidContent.querySelector('#fluid-intake-error').textContent = 'Intake harus antara 0-500 ml/jam'.addClass('visible');
+      const intakeError = fluidContent.querySelector('#fluid-intake-error');
+      intakeError.textContent = 'Intake harus antara 0-500 ml/jam';
+      intakeError.classList.add('visible');
       isValid = false;
     }
 

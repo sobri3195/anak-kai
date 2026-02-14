@@ -453,21 +453,27 @@ function initDehydrationModule() {
     // Validate age
     if (age === '' || age < 0 || age > 71) {
       dehydrationContent.querySelector('#dehydration-age').classList.add('error');
-      dehydrationContent.querySelector('#dehydration-age-error').textContent = 'Masukkan umur yang valid (0-71 bulan)'.addClass('visible');
+      const ageError = dehydrationContent.querySelector('#dehydration-age-error');
+      ageError.textContent = 'Masukkan umur yang valid (0-71 bulan)';
+      ageError.classList.add('visible');
       isValid = false;
     }
 
     // Validate weight
     if (!weight || weight < 2 || weight > 30) {
       dehydrationContent.querySelector('#dehydration-weight').classList.add('error');
-      dehydrationContent.querySelector('#dehydration-weight-error').textContent = 'Masukkan berat badan yang valid (2-30 kg)'.addClass('visible');
+      const weightError = dehydrationContent.querySelector('#dehydration-weight-error');
+      weightError.textContent = 'Masukkan berat badan yang valid (2-30 kg)';
+      weightError.classList.add('visible');
       isValid = false;
     }
 
     // Validate stools
     if (stools === '' || stools < 0 || stools > 20) {
       dehydrationContent.querySelector('#dehydration-stools').classList.add('error');
-      dehydrationContent.querySelector('#dehydration-stools-error').textContent = 'Masukkan frekuensi diare yang valid (0-20 kali)'.addClass('visible');
+      const stoolError = dehydrationContent.querySelector('#dehydration-stools-error');
+      stoolError.textContent = 'Masukkan frekuensi diare yang valid (0-20 kali)';
+      stoolError.classList.add('visible');
       isValid = false;
     }
 
