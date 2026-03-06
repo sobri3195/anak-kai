@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Anak-kai - Clinical Tools Offline untuk tenaga kesehatan anak">
+  <meta name="theme-color" content="#0f172a">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script type="text/javascript" src="jquery-2.2.0.min.js"></script>
   <script src="canvas.js"></script>
@@ -19,37 +21,66 @@
   <script type="text/javascript" src="education.js"></script>
   <title>Anak-kai | Clinical Tools Offline</title>
   <style>
+    /* ==================== CSS VARIABLES ==================== */
     * {
       box-sizing: border-box;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", sans-serif;
     }
 
     :root {
       --sidebar-width: 300px;
+      --sidebar-width-mobile: 280px;
       --primary: #0ea5e9;
+      --primary-light: #38bdf8;
       --primary-dark: #0284c7;
+      --primary-50: #f0f9ff;
       --success: #22c55e;
+      --success-light: #4ade80;
       --warning: #f59e0b;
+      --warning-light: #fbbf24;
       --danger: #ef4444;
-      --bg-light: #f1f5f9;
+      --danger-light: #f87171;
+      --bg-light: #f8fafc;
       --bg-sidebar: #0f172a;
+      --bg-card: #ffffff;
       --text-light: #f8fafc;
-      --text-muted: #94a3b8;
-      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --text-muted-light: #94a3b8;
+      --border-light: #e2e8f0;
+      --border-medium: #cbd5e1;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s ease;
+      --transition-slow: 0.35s ease;
     }
 
+    /* ==================== BASE STYLES ==================== */
     html, body {
       margin: 0;
       padding: 0;
       background: var(--bg-light);
-      color: #1e293b;
+      color: var(--text-dark);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     /* ==================== LAYOUT ==================== */
     .app {
       display: flex;
       min-height: 100vh;
+      position: relative;
     }
 
     /* ==================== LEFT SIDEBAR ==================== */
@@ -65,10 +96,9 @@
       z-index: 1000;
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease;
+      transition: transform var(--transition-normal);
     }
 
-    /* Smooth scrolling for sidebar content */
     .sidebar-scroll {
       overflow-y: auto;
       overflow-x: hidden;
@@ -90,35 +120,33 @@
       border-radius: 2px;
     }
 
-    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
     .sidebar-header {
-      padding: 24px;
+      padding: 20px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
     }
 
     .logo-section {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
     }
 
     .logo-text {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       margin: 0;
       background: linear-gradient(135deg, #fff, #94a3b8);
@@ -129,7 +157,7 @@
 
     .sidebar-desc {
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--text-muted-light);
       line-height: 1.5;
       margin: 0;
     }
@@ -142,42 +170,62 @@
     .menu-title {
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
+      letter-spacing: 1px;
+      color: var(--text-muted-light);
       padding: 0 12px;
       margin: 0 0 12px 0;
+      font-weight: 600;
     }
 
     .menu-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
+      padding: 12px 14px;
       margin: 4px 0;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: all 0.2s ease;
-      color: var(--text-muted);
+      transition: all var(--transition-fast);
+      color: var(--text-muted-light);
       text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--primary);
+      transform: scaleY(0);
+      transition: transform var(--transition-fast);
     }
 
     .menu-item:hover {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.08);
       color: var(--text-light);
+      transform: translateX(4px);
     }
 
     .menu-item.active {
       background: rgba(14, 165, 233, 0.15);
-      color: var(--primary);
+      color: var(--primary-light);
+    }
+
+    .menu-item.active::before {
+      transform: scaleY(1);
     }
 
     .menu-icon {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
@@ -187,42 +235,106 @@
       line-height: 1.4;
     }
 
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer p {
+      font-size: 11px;
+      color: var(--text-muted-light);
+      margin: 0;
+      text-align: center;
+    }
+
+    .sidebar-scroll-hint {
+      display: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      pointer-events: none;
+    }
+
     /* ==================== MAIN CONTENT ==================== */
     .main-content {
       margin-left: var(--sidebar-width);
       flex: 1;
-      padding: 32px;
+      padding: 32px 40px;
       max-width: 1400px;
       min-width: 0;
+      transition: margin var(--transition-normal);
     }
 
-    /* ==================== INPUT FORM CARD ==================== */
-    .input-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 32px;
-    }
-
-    .input-card-header {
+    .module-header {
       margin-bottom: 28px;
     }
 
-    .input-card-title {
-      font-size: 22px;
+    .module-title {
+      font-size: 26px;
       font-weight: 700;
-      margin: 0 0 10px 0;
-      color: #1e293b;
+      margin: 0 0 8px 0;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .input-card-desc {
+    .module-title-icon {
+      font-size: 28px;
+    }
+
+    .module-desc {
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 600px;
+    }
+
+    /* ==================== CARDS ==================== */
+    .input-card,
+    .module-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 28px;
+      transition: box-shadow var(--transition-normal);
+    }
+
+    .input-card:hover,
+    .module-card:hover {
+      box-shadow: var(--shadow-xl);
+    }
+
+    .input-card-header {
+      margin-bottom: 24px;
+    }
+
+    .input-card-title,
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: var(--text-dark);
+    }
+
+    .input-card-desc,
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
       line-height: 1.6;
       margin: 0;
     }
 
+    /* ==================== FORM ELEMENTS ==================== */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -246,7 +358,6 @@
       color: #334155;
     }
 
-    /* Gender Radio Group (Segmented Control) */
     .radio-group {
       display: flex;
       gap: 12px;
@@ -268,37 +379,38 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       padding: 14px 16px;
-      background: #f8fafc;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
+      background: var(--bg-light);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-md);
       cursor: pointer;
       font-size: 14px;
-      font-weight: 500;
-      color: #64748b;
-      transition: all 0.2s ease;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
       margin: 0;
     }
 
     .radio-option input[type="radio"]:checked + label {
-      background: #e0f2fe;
+      background: var(--primary-50);
       border-color: var(--primary);
-      color: var(--primary);
+      color: var(--primary-dark);
     }
 
-    .radio-option input[type="radio"]:hover + label {
-      border-color: #cbd5e1;
+    .radio-option label:hover {
+      border-color: var(--border-medium);
+      background: #f1f5f9;
     }
 
-    /* Toggle Switch */
     .toggle-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 14px 18px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
+      background: var(--bg-light);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
     }
 
     .toggle-label {
@@ -311,10 +423,10 @@
       position: relative;
       width: 52px;
       height: 28px;
-      background: #cbd5e1;
+      background: var(--border-medium);
       border-radius: 14px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background var(--transition-fast);
     }
 
     .toggle-switch.active {
@@ -330,7 +442,7 @@
       height: 22px;
       background: #fff;
       border-radius: 50%;
-      transition: transform 0.3s ease;
+      transition: transform var(--transition-fast);
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
@@ -338,28 +450,27 @@
       transform: translateX(24px);
     }
 
-    /* Input Fields */
     .form-field input,
     .form-field select {
       width: 100%;
       padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
       background: #fff;
-      color: #1e293b;
+      color: var(--text-dark);
       font-size: 15px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all var(--transition-fast);
     }
 
     .form-field input:focus,
     .form-field select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
     }
 
     .form-field input::placeholder {
-      color: #94a3b8;
+      color: var(--text-muted-light);
     }
 
     .form-field input.error,
@@ -368,7 +479,6 @@
       box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
     }
 
-    /* Inline Error Messages */
     .error-message {
       font-size: 12px;
       color: var(--danger);
@@ -378,9 +488,16 @@
 
     .error-message.visible {
       display: block;
+      animation: shake 0.3s ease;
     }
 
-    /* ==================== BUTTON STYLES ==================== */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    /* ==================== BUTTONS ==================== */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -388,11 +505,11 @@
       gap: 8px;
       padding: 12px 20px;
       border: none;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--transition-fast);
       text-decoration: none;
       white-space: nowrap;
     }
@@ -402,142 +519,87 @@
       cursor: not-allowed;
     }
 
-    /* Primary Button */
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
     }
 
     .btn-primary:active:not(:disabled) {
       transform: translateY(0);
     }
 
-    /* Secondary Button */
     .btn-secondary {
-      background: #f1f5f9;
+      background: var(--bg-light);
       color: #475569;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-light);
     }
 
     .btn-secondary:hover:not(:disabled) {
       background: #e2e8f0;
-      border-color: #cbd5e1;
     }
 
-    /* Success Button */
     .btn-success {
-      background: var(--success);
+      background: linear-gradient(135deg, var(--success), #16a34a);
       color: #fff;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
     }
 
-    .btn-success:hover:not(:disabled) {
-      background: #16a34a;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-    }
-
-    /* Warning Button */
     .btn-warning {
-      background: var(--warning);
+      background: linear-gradient(135deg, var(--warning), #d97706);
       color: #fff;
     }
 
-    .btn-warning:hover:not(:disabled) {
-      background: #d97706;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    }
-
-    /* Danger Button */
     .btn-danger {
-      background: var(--danger);
+      background: linear-gradient(135deg, var(--danger), #dc2626);
       color: #fff;
     }
 
-    .btn-danger:hover:not(:disabled) {
-      background: #dc2626;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    /* Ghost Button */
-    .btn-ghost {
-      background: transparent;
-      color: #64748b;
-    }
-
-    .btn-ghost:hover:not(:disabled) {
-      background: #f1f5f9;
-      color: #334155;
-    }
-
-    /* Button Sizes */
     .btn-sm {
       padding: 8px 14px;
       font-size: 13px;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
     }
 
     .btn-lg {
       padding: 16px 28px;
       font-size: 16px;
-      border-radius: 14px;
+      border-radius: var(--radius-lg);
     }
 
     .btn-block {
       width: 100%;
     }
 
-    /* Icon Button */
     .btn-icon {
       width: 40px;
       height: 40px;
       padding: 0;
-      border-radius: 10px;
-    }
-
-    .btn-icon.btn-sm {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-
-    .btn-icon.btn-lg {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-    }
-
-    /* Submit Button */
-    .form-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      border-radius: var(--radius-md);
     }
 
     #but {
       width: 100%;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
       border: none;
-      border-radius: 14px;
+      border-radius: var(--radius-lg);
       font-weight: 600;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: all var(--transition-fast);
       padding: 16px 24px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
     }
 
     #but:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
     }
 
     #but:active {
@@ -546,47 +608,40 @@
 
     .form-note {
       font-size: 13px;
-      color: #64748b;
+      color: var(--text-muted);
       line-height: 1.6;
       margin: 0;
       text-align: center;
     }
 
-    /* Sticky button for mobile */
-    @media (max-width: 1023px) {
-      .form-actions.sticky-mobile {
-        position: sticky;
-        bottom: 0;
-        background: var(--card-bg);
-        padding: 16px 0;
-        margin: 0 -20px;
-        padding-left: 20px;
-        padding-right: 20px;
-        border-top: 1px solid #e2e8f0;
-      }
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     /* ==================== SUMMARY CARD ==================== */
     .summary-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-md);
       margin-bottom: 24px;
+      border-left: 4px solid var(--primary);
     }
 
     .summary-card h2 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
+      margin: 0 0 8px 0;
+      font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
-    #summaryText {
+    #summaryText, #kpsp-summary-text {
       margin: 0;
-      font-size: 15px;
-      color: #64748b;
-      line-height: 1.7;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
     /* ==================== RESULT CARDS ==================== */
@@ -594,17 +649,23 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .result-card {
-      background: var(--card-bg);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
       padding: 24px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
       gap: 12px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .result-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .result-header {
@@ -618,7 +679,7 @@
       margin: 0;
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-dark);
       line-height: 1.4;
     }
 
@@ -630,25 +691,30 @@
       white-space: nowrap;
     }
 
-    .badge.good {
+    .badge.good, .badge.normal {
       background: #dcfce7;
       color: #16a34a;
     }
 
-    .badge.warn {
+    .badge.warn, .badge.warning {
       background: #fef3c7;
       color: #d97706;
     }
 
-    .badge.bad {
+    .badge.bad, .badge.danger {
       background: #fee2e2;
       color: #dc2626;
+    }
+
+    .badge.info {
+      background: #dbeafe;
+      color: #2563eb;
     }
 
     .result-meta {
       margin: 0;
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -660,10 +726,10 @@
     }
 
     .result-advice {
-      background: #f0f9ff;
-      border-radius: 12px;
+      background: var(--primary-50);
+      border-radius: var(--radius-md);
       padding: 14px 16px;
-      font-size: 12px;
+      font-size: 13px;
       color: #334155;
       line-height: 1.6;
       border-left: 3px solid var(--primary);
@@ -677,24 +743,24 @@
     }
 
     .chart-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
     }
 
     .chart-card h4 {
-      margin: 0 0 20px 0;
+      margin: 0 0 16px 0;
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .chart-container {
       width: 100%;
       overflow: hidden;
-      border-radius: 12px;
-      background: #f8fafc;
+      border-radius: var(--radius-md);
+      background: var(--bg-light);
     }
 
     canvas {
@@ -702,8 +768,7 @@
       height: auto;
       max-width: 100%;
       display: block;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
       background: #fff;
     }
 
@@ -714,19 +779,19 @@
       top: 16px;
       left: 16px;
       z-index: 1100;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: var(--bg-sidebar);
       border: none;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       cursor: pointer;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
       padding: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      transition: all var(--transition-fast);
     }
 
     .hamburger:hover {
@@ -740,10 +805,10 @@
 
     .hamburger span {
       display: block;
-      width: 20px;
+      width: 22px;
       height: 2px;
       background: #fff;
-      transition: all 0.3s ease;
+      transition: all var(--transition-fast);
       border-radius: 1px;
     }
 
@@ -759,27 +824,6 @@
       transform: rotate(-45deg) translate(5px, -5px);
     }
 
-    /* Mobile sidebar scroll hint */
-    .sidebar-scroll-hint {
-      display: none;
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 8px 16px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-      pointer-events: none;
-      animation: fadeInOut 2s ease-in-out infinite;
-    }
-
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
     .overlay {
       display: none;
       position: fixed;
@@ -790,7 +834,8 @@
       background: rgba(0,0,0,0.5);
       z-index: 998;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity var(--transition-normal);
+      backdrop-filter: blur(2px);
     }
 
     .overlay.active {
@@ -798,116 +843,27 @@
       opacity: 1;
     }
 
-    /* ==================== RESPONSIVE ==================== */
-    @media (max-width: 1199px) {
-      .main-content {
-        padding: 24px;
-      }
-      
-      .input-card {
-        padding: 24px;
-      }
-    }
-
-    @media (max-width: 1023px) {
-      .hamburger {
-        display: flex;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-scroll-hint {
-        display: block;
-      }
-
-      .main-content {
-        margin-left: 0;
-        padding: 80px 20px 24px;
-        max-width: none;
-      }
-
-      #hasil {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      
-      .form-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      /* Mobile-specific button styles */
-      .btn {
-        min-height: 44px; /* Touch target minimum */
-      }
-
-      .btn-icon {
-        min-height: 44px;
-        min-width: 44px;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .main-content {
-        padding: 76px 16px 16px;
-      }
-
-      .input-card {
-        padding: 20px;
-        border-radius: 16px;
-      }
-      
-      .input-card-title {
-        font-size: 18px;
-      }
-
-      .summary-card {
-        padding: 20px;
-        border-radius: 16px;
-      }
-
-      .result-card {
-        padding: 20px;
-      }
-
-      .chart-card {
-        padding: 20px;
-        border-radius: 16px;
-      }
-
-      canvas {
-        border-radius: 8px;
-      }
-    }
-
-    @media (min-width: 1400px) {
-      .main-content {
-        max-width: 1200px;
-      }
-    }
-
-    /* ==================== KPSP STYLES ==================== */
-    .kpsp-content {
+    /* ==================== MODULE STYLES ==================== */
+    .kpsp-content, .growth-content, .module-content {
       display: none;
     }
 
-    .kpsp-content.active {
+    .kpsp-content.active, .growth-content.active, .module-content.active {
       display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .kpsp-input-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 32px;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 28px 32px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 28px;
     }
 
     .kpsp-input-header {
@@ -915,15 +871,15 @@
     }
 
     .kpsp-input-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      margin: 0 0 10px 0;
-      color: #1e293b;
+      margin: 0 0 8px 0;
+      color: var(--text-dark);
     }
 
     .kpsp-input-desc {
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
       line-height: 1.6;
       margin: 0;
     }
@@ -943,41 +899,37 @@
     .kpsp-form-field select {
       width: 100%;
       padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
       background: #fff;
-      color: #1e293b;
+      color: var(--text-dark);
       font-size: 15px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all var(--transition-fast);
     }
 
     .kpsp-form-field select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
     }
 
     .kpsp-form-field button {
       width: 100%;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--transition-fast);
       padding: 14px 16px;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       font-size: 15px;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
     }
 
     .kpsp-form-field button:hover:not(:disabled) {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-    }
-
-    .kpsp-form-field button:active:not(:disabled) {
-      transform: translateY(0);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
     }
 
     .kpsp-questionnaire {
@@ -987,26 +939,32 @@
 
     .kpsp-questionnaire.active {
       display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .kpsp-age-group-info {
       background: linear-gradient(135deg, #e0f2fe, #dbeafe);
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       padding: 16px;
       margin-bottom: 20px;
       border-left: 4px solid var(--primary);
     }
 
     .kpsp-age-group-info h4 {
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .kpsp-age-group-info p {
       margin: 0;
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .kpsp-question-list {
@@ -1016,11 +974,11 @@
     }
 
     .kpsp-question-item {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
+      background: var(--bg-light);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
       padding: 16px;
-      transition: all 0.2s ease;
+      transition: all var(--transition-fast);
     }
 
     .kpsp-question-item:hover {
@@ -1052,11 +1010,12 @@
     .kpsp-category-badge {
       display: inline-block;
       padding: 4px 10px;
-      background: #f1f5f9;
+      background: var(--bg-light);
       border-radius: 999px;
       font-size: 11px;
-      color: #64748b;
+      color: var(--text-muted);
       margin-bottom: 10px;
+      font-weight: 500;
     }
 
     .kpsp-answer-group {
@@ -1082,13 +1041,13 @@
       gap: 6px;
       padding: 10px 16px;
       background: #fff;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-sm);
       cursor: pointer;
       font-size: 13px;
-      font-weight: 500;
-      color: #64748b;
-      transition: all 0.2s ease;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
     }
 
     .kpsp-answer-option input[type="radio"]:checked + label.yes {
@@ -1104,7 +1063,35 @@
     }
 
     .kpsp-answer-option:hover label {
-      border-color: #cbd5e1;
+      border-color: var(--border-medium);
+    }
+
+    .kpsp-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .kpsp-progress-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 3px;
+      margin: 0 12px;
+      overflow: hidden;
+    }
+
+    .kpsp-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      border-radius: 3px;
+      transition: width 0.3s ease;
     }
 
     .kpsp-result-section {
@@ -1114,20 +1101,21 @@
 
     .kpsp-result-section.active {
       display: block;
+      animation: fadeIn 0.4s ease;
     }
 
     .kpsp-result-card {
       background: #fff;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       padding: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow-lg);
     }
 
     .kpsp-result-header {
       text-align: center;
       margin-bottom: 24px;
       padding-bottom: 20px;
-      border-bottom: 2px solid #f1f5f9;
+      border-bottom: 2px solid var(--bg-light);
     }
 
     .kpsp-result-status {
@@ -1158,13 +1146,13 @@
 
     .kpsp-score-display {
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
       margin-top: 8px;
     }
 
     .kpsp-score-display span {
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .kpsp-category-breakdown {
@@ -1175,8 +1163,8 @@
     }
 
     .kpsp-category-item {
-      background: #f8fafc;
-      border-radius: 10px;
+      background: var(--bg-light);
+      border-radius: var(--radius-sm);
       padding: 14px;
       display: flex;
       justify-content: space-between;
@@ -1185,27 +1173,27 @@
 
     .kpsp-category-name {
       font-size: 13px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .kpsp-category-score {
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .kpsp-advice-box {
       background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       padding: 20px;
       margin-top: 20px;
       border-left: 4px solid var(--primary);
     }
 
     .kpsp-advice-box h4 {
-      margin: 0 0 10px 0;
+      margin: 0 0 8px 0;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .kpsp-advice-box p {
@@ -1216,8 +1204,8 @@
     }
 
     .kpsp-info-box {
-      background: #f8fafc;
-      border-radius: 12px;
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
       padding: 20px;
       margin-top: 24px;
     }
@@ -1225,301 +1213,417 @@
     .kpsp-info-box h4 {
       margin: 0 0 12px 0;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .kpsp-info-box ul {
       margin: 0;
       padding-left: 18px;
       font-size: 13px;
-      color: #64748b;
+      color: var(--text-muted);
       line-height: 1.8;
     }
 
-    .kpsp-progress {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      background: #f8fafc;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .kpsp-progress-bar {
-      flex: 1;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 3px;
-      margin: 0 12px;
-      overflow: hidden;
-    }
-
-    .kpsp-progress-fill {
-      height: 100%;
-      background: var(--primary);
-      border-radius: 3px;
-      transition: width 0.3s ease;
-    }
-
-    @media (max-width: 767px) {
-      .kpsp-input-card {
-        padding: 20px;
-      }
-      
-      .kpsp-category-breakdown {
-        grid-template-columns: 1fr;
-      }
-      
-      .kpsp-answer-group {
-        flex-direction: column;
-      }
-      
-      .kpsp-question-item {
-        padding: 14px;
-      }
-    }
-
-    /* Growth module hidden state */
-    .growth-content {
-      display: block;
-    }
-
-    .growth-content.hidden {
-      display: none;
-    }
-
-    /* Placeholder content for other modules */
+    /* ==================== PLACEHOLDER MODULE ==================== */
     .module-placeholder {
-      background: var(--card-bg);
-      border-radius: 20px;
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
       padding: 48px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-lg);
       text-align: center;
     }
 
     .module-placeholder-icon {
       font-size: 64px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      display: block;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .module-placeholder h2 {
       margin: 0 0 12px 0;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-dark);
     }
 
     .module-placeholder p {
       margin: 0;
       font-size: 15px;
-      color: #64748b;
+      color: var(--text-muted);
       line-height: 1.6;
     }
 
-    /* ==================== MODULE CONTENT BASE STYLES ==================== */
-    .module-content {
-      display: none;
+    /* ==================== RESPONSIVE STYLES ==================== */
+    @media (min-width: 1400px) {
+      .main-content {
+        max-width: 1200px;
+        padding: 40px 48px;
+      }
     }
 
-    .module-content.active {
-      display: block;
+    @media (max-width: 1199px) {
+      .main-content {
+        padding: 24px 32px;
+      }
+      .input-card, .kpsp-input-card {
+        padding: 24px;
+      }
     }
 
-    /* Module header styling */
-    .module-header {
-      margin-bottom: 28px;
+    @media (max-width: 1023px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        width: var(--sidebar-width-mobile);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-scroll-hint {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 80px 24px 24px;
+        max-width: none;
+      }
+
+      #hasil {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .module-title {
+        font-size: 22px;
+      }
+
+      .btn {
+        min-height: 48px;
+      }
+
+      .btn-icon {
+        min-height: 48px;
+        min-width: 48px;
+      }
+
+      .input-card, .module-card, .kpsp-input-card {
+        padding: 20px;
+        border-radius: var(--radius-lg);
+      }
+
+      .result-card {
+        padding: 20px;
+      }
+
+      .chart-card {
+        padding: 20px;
+      }
     }
 
-    .module-title {
-      font-size: 22px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-      color: #1e293b;
+    @media (max-width: 767px) {
+      .main-content {
+        padding: 72px 16px 16px;
+      }
+
+      .sidebar-header {
+        padding: 16px;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .logo-text {
+        font-size: 20px;
+      }
+
+      .menu-item {
+        padding: 12px;
+      }
+
+      .menu-label {
+        font-size: 13px;
+      }
+
+      .module-title {
+        font-size: 20px;
+      }
+
+      .input-card-title, .kpsp-input-title, .card-title {
+        font-size: 18px;
+      }
+
+      .input-card, .module-card, .kpsp-input-card {
+        padding: 16px;
+        border-radius: var(--radius-md);
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .result-card {
+        padding: 16px;
+      }
+
+      .chart-card {
+        padding: 16px;
+        border-radius: var(--radius-md);
+      }
+
+      canvas {
+        border-radius: var(--radius-sm);
+      }
+
+      .radio-group {
+        flex-direction: column;
+      }
+
+      .radio-option label {
+        padding: 12px;
+      }
+
+      .badge {
+        font-size: 11px;
+        padding: 4px 10px;
+      }
+
+      .kpsp-category-breakdown {
+        grid-template-columns: 1fr;
+      }
+
+      .kpsp-answer-group {
+        flex-direction: column;
+      }
+
+      .form-note {
+        font-size: 12px;
+      }
+
+      .module-desc {
+        font-size: 13px;
+      }
     }
 
-    .module-desc {
-      font-size: 14px;
-      color: #64748b;
-      line-height: 1.6;
-      margin: 0;
+    @media (max-width: 400px) {
+      .hamburger {
+        top: 12px;
+        left: 12px;
+        width: 44px;
+        height: 44px;
+      }
+
+      .main-content {
+        padding: 68px 12px 12px;
+      }
+
+      .module-title {
+        font-size: 18px;
+      }
     }
 
-    /* Module card styling */
-    .module-card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 24px;
+    @media print {
+      .sidebar, .hamburger, .overlay {
+        display: none !important;
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 0;
+      }
+      .input-card, .result-card, .chart-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
     }
 
-    /* Module result styling */
-    .module-result {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-    }
-
-    .module-result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .module-result-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1e293b;
-      margin: 0;
-    }
-
-    /* Module loading state */
-    .module-loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px;
-      color: #64748b;
-    }
-
-    .module-loading::after {
-      content: '';
-      width: 24px;
-      height: 24px;
-      margin-left: 12px;
-      border: 3px solid #e2e8f0;
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    /* ==================== ANIMATIONS ==================== */
+    .fade-in {
+      animation: fadeIn 0.3s ease;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    /* Module development notice */
-    .module-dev-notice {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 20px;
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border-radius: 12px;
-      margin-bottom: 24px;
+    /* ==================== ACCESSIBILITY ==================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
 
-    .module-dev-notice-icon {
-      font-size: 32px;
-      flex-shrink: 0;
-    }
-
-    .module-dev-notice h3 {
-      margin: 0 0 4px 0;
-      font-size: 16px;
-      color: #92400e;
-    }
-
-    .module-dev-notice p {
-      margin: 0;
-      font-size: 14px;
-      color: #b45309;
+    .btn:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
-  <!-- Hamburger Menu Button (Left Sidebar) -->
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+  <!-- Hamburger Menu Button -->
+  <button class="hamburger" id="hamburger" aria-label="Buka menu">
     <span></span>
     <span></span>
     <span></span>
   </button>
 
-  <!-- Overlay for mobile/tablet -->
+  <!-- Overlay for mobile -->
   <div class="overlay" id="overlay"></div>
 
   <div class="app">
     <!-- Left Sidebar -->
     <aside class="sidebar" id="sidebar">
-      <!-- Header -->
       <div class="sidebar-header">
         <div class="logo-section">
           <div class="logo-icon">👶</div>
           <h1 class="logo-text">Anak-kai</h1>
         </div>
-        <p class="sidebar-desc">Clinical tools offline, berjalan penuh di browser</p>
+        <p class="sidebar-desc">Clinical tools offline untuk tenaga kesehatan anak</p>
       </div>
 
-      <!-- Menu Modules with Scrollable Container -->
       <div class="sidebar-scroll">
         <div class="menu-section">
           <p class="menu-title">Modul Klinis</p>
-          
+
           <a href="#" class="menu-item active" data-module="growth">
             <span class="menu-icon">📊</span>
             <span class="menu-label">Analisa Grafik Pertumbuhan (WHO)</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="kpsp">
             <span class="menu-icon">🧩</span>
-            <span class="menu-label">Skrining Perkembangan (KPSP/ASQ)</span>
+            <span class="menu-label">Skrining Perkembangan (KPSP)</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="anemia">
             <span class="menu-icon">🩸</span>
             <span class="menu-label">Skrining Anemia (Hb)</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="drug">
             <span class="menu-icon">💊</span>
-            <span class="menu-label">Kalkulator Dosis Obat Anak</span>
+            <span class="menu-label">Kalkulator Dosis Obat</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="dehydration">
             <span class="menu-icon">💧</span>
             <span class="menu-label">Skrining Dehidrasi & Diare</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="immunization">
             <span class="menu-icon">💉</span>
-            <span class="menu-label">Imunisasi</span>
+            <span class="menu-label">Imunisasi & Jadwal Vaksin</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="fever">
             <span class="menu-icon">🌡️</span>
-            <span class="menu-label">Kalkulator Status Demam</span>
+            <span class="menu-label">Kalkulator Demam</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="bmi">
             <span class="menu-icon">⚖️</span>
             <span class="menu-label">BMI & Risiko Metabolik</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="fluid">
             <span class="menu-icon">🧪</span>
-            <span class="menu-label">Cairan Maintenance (Holliday–Segar)</span>
+            <span class="menu-label">Cairan Maintenance</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="risk">
             <span class="menu-icon">⚠️</span>
-            <span class="menu-label">Skor Risiko (Rule-based)</span>
+            <span class="menu-label">Skor Risiko Klinis</span>
           </a>
-          
+
           <a href="#" class="menu-item" data-module="education">
             <span class="menu-icon">📄</span>
-            <span class="menu-label">Generator Edukasi Pasien (PDF)</span>
+            <span class="menu-label">Generator Edukasi Pasien</span>
           </a>
         </div>
-        
-        <!-- Scroll hint for mobile -->
-        <div class="sidebar-scroll-hint">
-          ← Scroll untuk melihat lebih banyak →
+
+        <!-- NEW MODULES -->
+        <div class="menu-section">
+          <p class="menu-title">Modul Tambahan</p>
+
+          <a href="#" class="menu-item" data-module="vitals">
+            <span class="menu-icon">❤️</span>
+            <span class="menu-label">Tanda Vital Referensi</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="nutrition">
+            <span class="menu-icon">🥗</span>
+            <span class="menu-label">Kalkulator Gizi</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="milestone">
+            <span class="menu-icon">🎯</span>
+            <span class="menu-label">Tonggak Perkembangan</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="feeding">
+            <span class="menu-icon">🍼</span>
+            <span class="menu-label">Kalkulator Susu/Makanan</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="referral">
+            <span class="menu-icon">🏥</span>
+            <span class="menu-label">Kriteria Rujukan</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="allergy">
+            <span class="menu-icon">🚫</span>
+            <span class="menu-label">Pencatat Alergi</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="vaccinetracker">
+            <span class="menu-icon">📅</span>
+            <span class="menu-label">Pelacak Imunisasi</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="medinteract">
+            <span class="menu-icon">💬</span>
+            <span class="menu-label">Interaksi Obat</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="growthvelocity">
+            <span class="menu-icon">📈</span>
+            <span class="menu-label">Kecepatan Pertumbuhan</span>
+          </a>
+
+          <a href="#" class="menu-item" data-module="resuscitation">
+            <span class="menu-icon">🚑</span>
+            <span class="menu-label">Bantuan Hidup Dasar</span>
+          </a>
         </div>
+
+        <div class="sidebar-scroll-hint">
+          ← Scroll untuk lebih banyak →
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <p>v1.0.0 • Browser-based • Offline</p>
       </div>
     </aside>
 
@@ -1527,54 +1631,49 @@
     <main class="main-content">
       <!-- Growth Content -->
       <div class="growth-content" id="growthContent">
-        <!-- Input Form Card -->
-        <section class="input-card">
-          <div class="input-card-header">
-            <h2 class="input-card-title">Analisa Grafik Pertumbuhan (WHO)</h2>
-            <p class="input-card-desc">Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
-          </div>
+        <div class="module-header">
+          <h2 class="module-title">
+            <span class="module-title-icon">📊</span>
+            Analisa Grafik Pertumbuhan (WHO)
+          </h2>
+          <p class="module-desc">Hitung status gizi anak dan tampilkan analisa detail berbasis standar WHO. Semua proses berjalan di browser tanpa backend.</p>
+        </div>
 
+        <section class="input-card">
           <div class="form-grid" id="dataInput">
-            <!-- Gender Selection (Radio/Segmented Control) -->
             <div class="form-field full-width">
               <label>Jenis Kelamin</label>
               <div class="radio-group">
                 <div class="radio-option">
                   <input type="radio" id="gender-male" name="gender" value="boys" checked>
-                  <label for="gender-male">Laki-laki</label>
+                  <label for="gender-male">👦 Laki-laki</label>
                 </div>
                 <div class="radio-option">
                   <input type="radio" id="gender-female" name="gender" value="girls">
-                  <label for="gender-female">Perempuan</label>
+                  <label for="gender-female">👧 Perempuan</label>
                 </div>
               </div>
               <div class="error-message" id="gender-error"></div>
             </div>
 
-            <!-- Age Selection -->
             <div class="form-field">
               <label for="age">Umur (bulan)</label>
-              <select id="age">
-                <!-- Options will be populated by JS -->
-              </select>
+              <select id="age"></select>
               <div class="error-message" id="age-error"></div>
             </div>
 
-            <!-- Weight Input -->
             <div class="form-field">
               <label for="bb">Berat badan (kg)</label>
-              <input type="number" id="bb" min="0.5" max="50" step="0.1" placeholder="3.8">
+              <input type="number" id="bb" min="0.5" max="50" step="0.1" placeholder="Contoh: 8.5">
               <div class="error-message" id="weight-error"></div>
             </div>
 
-            <!-- Height/Length Input -->
             <div class="form-field">
               <label for="tb">Tinggi/Panjang badan (cm)</label>
-              <input type="number" id="tb" min="30" max="150" step="0.1" placeholder="50">
+              <input type="number" id="tb" min="30" max="150" step="0.1" placeholder="Contoh: 75">
               <div class="error-message" id="height-error"></div>
             </div>
 
-            <!-- Toggle: Length vs Height -->
             <div class="form-field">
               <div class="toggle-container">
                 <span class="toggle-label" id="position-label">Panjang badan (telentang)</span>
@@ -1584,21 +1683,18 @@
           </div>
 
           <div class="form-actions">
-            <button id="but">Hitung Analisa</button>
+            <button id="but">Hitung Analisa Pertumbuhan</button>
             <p class="form-note">Grafik memperlihatkan posisi anak pada kurva panjang/tinggi badan, berat badan, dan berat terhadap panjang badan.</p>
           </div>
         </section>
 
-        <!-- Summary Card -->
         <section class="summary-card">
           <h2>Ringkasan Analisa</h2>
           <p id="summaryText">Masukkan data untuk melihat ringkasan hasil.</p>
         </section>
 
-        <!-- Result Cards -->
         <section id="hasil"></section>
 
-        <!-- Charts -->
         <section class="charts">
           <div class="chart-card">
             <h4>Panjang/Tinggi Badan terhadap Umur</h4>
@@ -1623,13 +1719,15 @@
 
       <!-- KPSP Content -->
       <div class="kpsp-content" id="kpspContent">
-        <!-- KPSP Input Card -->
-        <section class="kpsp-input-card">
-          <div class="kpsp-input-header">
-            <h2 class="kpsp-input-title">Skrining Perkembangan (KPSP/ASQ)</h2>
-            <p class="kpsp-input-desc">Kuesioner untuk menilai perkembangan anak usia 0-72 bulan. Jawab 10 pertanyaan berdasarkan kemampuan anak saat ini.</p>
-          </div>
+        <div class="module-header">
+          <h2 class="module-title">
+            <span class="module-title-icon">🧩</span>
+            Skrining Perkembangan (KPSP)
+          </h2>
+          <p class="module-desc">Kuesioner untuk menilai perkembangan anak usia 0-72 bulan. Jawab 10 pertanyaan berdasarkan kemampuan anak saat ini.</p>
+        </div>
 
+        <section class="kpsp-input-card">
           <div class="kpsp-form-field">
             <label for="kpsp-age">Umur Anak (bulan)</label>
             <select id="kpsp-age">
@@ -1639,10 +1737,9 @@
           </div>
 
           <div class="kpsp-form-field" id="kpsp-start-container">
-            <button id="kpsp-start">Mulai Skrining</button>
+            <button id="kpsp-start">Mulai Skrining Perkembangan</button>
           </div>
 
-          <!-- Questionnaire Section -->
           <div class="kpsp-questionnaire" id="kpsp-questionnaire">
             <div class="kpsp-age-group-info" id="kpsp-age-info">
               <h4>Kelompok Umur: <span id="kpsp-age-label">-</span></h4>
@@ -1657,9 +1754,7 @@
               <span id="kpsp-progress-text">0/10</span>
             </div>
 
-            <div class="kpsp-question-list" id="kpsp-question-list">
-              <!-- Questions will be populated by JS -->
-            </div>
+            <div class="kpsp-question-list" id="kpsp-question-list"></div>
 
             <div class="kpsp-form-field" style="margin-top: 24px;">
               <button id="kpsp-submit">Hitung Hasil Skrining</button>
@@ -1667,13 +1762,11 @@
           </div>
         </section>
 
-        <!-- KPSP Summary -->
         <section class="summary-card">
           <h2>Skrining Perkembangan Anak</h2>
           <p id="kpsp-summary-text">Pilih umur anak dan jawab 10 pertanyaan untuk menilai perkembangan.</p>
         </section>
 
-        <!-- KPSP Result Section -->
         <section class="kpsp-result-section" id="kpsp-result">
           <div class="kpsp-result-card">
             <div class="kpsp-result-header">
@@ -1690,9 +1783,7 @@
               -
             </div>
 
-            <div class="kpsp-category-breakdown" id="kpsp-category-breakdown">
-              <!-- Category scores will be populated by JS -->
-            </div>
+            <div class="kpsp-category-breakdown" id="kpsp-category-breakdown"></div>
 
             <div class="kpsp-advice-box">
               <h4>📋 Rekomendasi</h4>
@@ -1701,41 +1792,36 @@
           </div>
         </section>
 
-        <!-- KPSP Info Box -->
         <section class="kpsp-info-box" id="kpsp-info-box">
-          <h4>ℹ️ Tentang KPSP/ASQ</h4>
+          <h4>ℹ️ Tentang KPSP</h4>
           <ul>
             <li><strong>KPSP</strong> (Kuesioner Pra Skrining Perkembangan) adalah alat skrining standar di Indonesia.</li>
-            <li><strong>ASQ</strong> (Ages and Stages Questionnaires) adalah instrumen internasional yang mendasarai KPSP.</li>
-            <li>Skrining ini menilai 5 area perkembangan: Komunikasi, Motorik Kasar, Motorik Halus, Kognitif, dan Sosialisasi.</li>
-            <li><strong>Interpretasi Hasil:</strong>
-              <ul style="margin-top: 8px;">
+            <li>Menilai 5 area: Komunikasi, Motorik Kasar, Motorik Halus, Kognitif, dan Sosialisasi.</li>
+            <li><strong>Interpretasi:</strong>
+              <ul>
                 <li><strong>9-10 Ya:</strong> Perkembangan sesuai usia</li>
                 <li><strong>7-8 Ya:</strong> Perlu pemantauan dan ulangan skrining</li>
-                <li><strong>&lt; 7 Ya:</strong> Perlu evaluasi lebih lanjut oleh tenaga kesehatan</li>
+                <li><strong>&lt; 7 Ya:</strong> Perlu evaluasi lebih lanjut</li>
               </ul>
             </li>
           </ul>
         </section>
       </div>
 
-      <!-- Placeholder for other modules -->
+      <!-- Module Placeholder -->
       <div class="module-placeholder" id="modulePlaceholder" style="display: none;">
-        <div class="module-placeholder-icon" id="placeholderIcon">🚧</div>
+        <span class="module-placeholder-icon" id="placeholderIcon">🚧</span>
         <h2 id="placeholderTitle">Modul dalam Pengembangan</h2>
-        <p id="placeholderDesc">Fitur ini akan segera hadir. Silakan gunakan modul Analisa Grafik Pertumbuhan atau Skrining Perkembangan.</p>
+        <p id="placeholderDesc">Fitur ini akan segera hadir.</p>
       </div>
     </main>
   </div>
 
   <script>
     // ==================== MODULE REGISTRY ====================
-    // Use this registry to add new modules easily
-    // Format: { name: 'module-name', init: function, label: 'Display Label' }
     const ModuleRegistry = {
       modules: {},
-      
-      // Register a new module
+
       register: function(config) {
         this.modules[config.name] = {
           init: config.init || function() {},
@@ -1744,67 +1830,243 @@
           description: config.description || ''
         };
       },
-      
-      // Get all registered modules
+
       getAll: function() {
         return Object.keys(this.modules).map(function(key) {
           return { name: key, ...this.modules[key] };
         }.bind(this));
       },
-      
-      // Initialize a specific module
+
       init: function(name) {
         if (this.modules[name] && this.modules[name].init) {
           this.modules[name].init();
         }
       },
-      
-      // Check if module is registered
+
       has: function(name) {
         return !!this.modules[name];
       }
     };
 
-    // Helper function to create module content HTML
-    function createModuleContent(moduleName, title, icon) {
-      return '<div class="' + moduleName + '-content module-content" style="display: none;">' +
-        '<div class="module-placeholder">' +
-        '<div class="module-placeholder-icon">' + icon + '</div>' +
-        '<h2>' + title + '</h2>' +
-        '<p>Modul dalam pengembangan</p>' +
-        '</div>' +
-        '</div>';
+    // ==================== EXISTING MODULES ====================
+    ModuleRegistry.register({ name: 'anemia', init: function() { initAnemiaModule(); }, label: 'Skrining Anemia (Hb)', icon: '🩸' });
+    ModuleRegistry.register({ name: 'drug', init: function() { initDrugModule(); }, label: 'Kalkulator Dosis Obat', icon: '💊' });
+    ModuleRegistry.register({ name: 'dehydration', init: function() { initDehydrationModule(); }, label: 'Skrining Dehidrasi & Diare', icon: '💧' });
+    ModuleRegistry.register({ name: 'immunization', init: function() { initImmunizationModule(); }, label: 'Imunisasi', icon: '💉' });
+    ModuleRegistry.register({ name: 'fever', init: function() { initFeverModule(); }, label: 'Kalkulator Demam', icon: '🌡️' });
+    ModuleRegistry.register({ name: 'bmi', init: function() { initBMIModule(); }, label: 'BMI & Risiko Metabolik', icon: '⚖️' });
+    ModuleRegistry.register({ name: 'fluid', init: function() { initFluidModule(); }, label: 'Cairan Maintenance', icon: '🧪' });
+    ModuleRegistry.register({ name: 'risk', init: function() { initRiskModule(); }, label: 'Skor Risiko Klinis', icon: '⚠️' });
+    ModuleRegistry.register({ name: 'education', init: function() { initEducationModule(); }, label: 'Generator Edukasi Pasien', icon: '📄' });
+
+    // ==================== NEW MODULES ====================
+
+    // 1. Vital Signs Reference Module
+    const VITALS_DATA = {
+      data: {
+        '0-1': { hr: [120, 160], rr: [30, 60], sbp: [60, 90], temp: [36.5, 37.5] },
+        '1-12': { hr: [100, 140], rr: [20, 30], sbp: [70, 100], temp: [36.5, 37.5] },
+        '1-3': { hr: [80, 120], rr: [20, 30], sbp: [80, 110], temp: [36.5, 37.5] },
+        '3-6': { hr: [70, 110], rr: [18, 25], sbp: [80, 110], temp: [36.5, 37.5] },
+        '6-12': { hr: [60, 100], rr: [15, 22], sbp: [90, 120], temp: [36.5, 37.5] },
+        '12+': { hr: [60, 100], rr: [12, 20], sbp: [90, 120], temp: [36.5, 37.5] }
+      },
+      getAgeGroup: function(months) {
+        if (months < 1) return '0-1';
+        if (months < 12) return '1-12';
+        if (months < 36) return '1-3';
+        if (months < 72) return '3-6';
+        return '6-12';
+      },
+      interpret: function(type, value, months) {
+        const ageGroup = this.getAgeGroup(months);
+        const ref = this.data[ageGroup];
+        if (!ref || !ref[type]) return { status: 'unknown', desc: 'Data tidak tersedia' };
+        const [min, max] = ref[type];
+        if (value < min) return { status: 'low', desc: 'Rendah dari normal', min: min, max: max, value: value };
+        else if (value > max) return { status: 'high', desc: 'Tinggi dari normal', min: min, max: max, value: value };
+        return { status: 'normal', desc: 'Normal', min: min, max: max, value: value };
+      }
+    };
+
+    function initVitalsModule() {
+      showModulePlaceholder('vitals', '❤️', 'Tanda Vital Referensi', 'Referensi normal tanda vital berdasarkan usia anak');
     }
 
-    // Helper function to add module to sidebar programmatically
-    function addModuleToSidebar(moduleName, label, icon) {
-      var menuSection = $('.menu-section');
-      var menuTitle = menuSection.find('.menu-title');
-      
-      var menuItem = $('<a>')
-        .attr('href', '#')
-        .attr('class', 'menu-item')
-        .attr('data-module', moduleName)
-        .html('<span class="menu-icon">' + icon + '</span><span class="menu-label">' + label + '</span>');
-      
-      menuSection.append(menuItem);
-      
-      // Add click handler
-      menuItem.on('click', function(e) {
-        e.preventDefault();
-        $('.menu-item').removeClass('active');
-        $(this).addClass('active');
-        
-        hideAllModules();
-        showModule(moduleName);
-        
-        if ($(window).width() < 1024) {
-          closeSidebarMobile();
-        }
-      });
+    // 2. Nutrition Calculator Module
+    const NUTRITION_DATA = {
+      needs: {
+        '0-6': { calories: 110, protein: 1.5, fluid: 150 },
+        '6-12': { calories: 100, protein: 1.2, fluid: 110 },
+        '1-3': { calories: 90, protein: 1.0, fluid: 100 },
+        '3-6': { calories: 85, protein: 0.9, fluid: 90 },
+        '6-12': { calories: 80, protein: 0.8, fluid: 80 },
+        '12+': { calories: 70, protein: 0.8, fluid: 60 }
+      },
+      getAgeGroup: function(months) {
+        if (months < 6) return '0-6';
+        if (months < 12) return '6-12';
+        if (months < 36) return '1-3';
+        if (months < 72) return '3-6';
+        if (months < 144) return '6-12';
+        return '12+';
+      },
+      calculate: function(weight, months) {
+        const ageGroup = this.getAgeGroup(months);
+        const req = this.needs[ageGroup];
+        return { calories: Math.round(weight * req.calories), protein: Math.round(weight * req.protein * 10) / 10, fluid: Math.round(weight * req.fluid) };
+      }
+    };
+
+    function initNutritionModule() {
+      showModulePlaceholder('nutrition', '🥗', 'Kalkulator Gizi', 'Hitung kebutuhan harian kalori, protein, dan cairan anak');
     }
 
-    // Function to close sidebar on mobile
+    // 3. Development Milestones Module
+    const MILESTONE_DATA = {
+      milestones: [
+        { months: 2, items: ['Mengangkat kepala saat tengkurap', 'Mengikuti objek dengan mata', 'Mengeluarkan suara kecil'] },
+        { months: 4, items: ['Tertawa', 'Menggerakkan tangan ke mulut', 'Mengepalkan tinju'] },
+        { months: 6, items: ['Duduk tanpa bantuan', 'Menggerakkan benda dari satu tangan ke tangan lain', 'Merespons suara'] },
+        { months: 9, items: ['Merangkak', 'Berdiri dengan berpegangan', 'Mengucapkan mama atau baba'] },
+        { months: 12, items: ['Berjalan dengan bantuan', 'Menunjuk benda yang diinginkan', 'Mengucapkan 2-3 kata'] },
+        { months: 18, items: ['Berjalan sendiri', 'Menumpuk 2-3 balok', 'Mengikuti perintah sederhana'] },
+        { months: 24, items: ['Lari', 'Lompat', 'Menggunakan 2-3 kata kalimat'] },
+        { months: 36, items: ['Naik tangga', 'Mengayuh sepeda', 'Bermain dengan anak lain'] },
+        { months: 48, items: ['Menggambar lingkaran', 'Berpakaian sendiri', 'Berbicara jelas'] },
+        { months: 60, items: ['Lompat dengan satu kaki', 'Menghitung sampai 10', 'Bermain peran'] }
+      ]
+    };
+
+    function initMilestoneModule() {
+      showModulePlaceholder('milestone', '🎯', 'Tonggak Perkembangan', 'Daftar tonggak perkembangan normal anak berdasarkan usia');
+    }
+
+    // 4. Feeding Calculator Module
+    const FEEDING_DATA = {
+      guide: [
+        { age: '0-1 bln', freq: '8-12x/hari', amount: '60-120 ml' },
+        { age: '1-2 bln', freq: '7-9x/hari', amount: '90-120 ml' },
+        { age: '2-4 bln', freq: '6-8x/hari', amount: '120-150 ml' },
+        { age: '4-6 bln', freq: '4-6x/hari', amount: '150-180 ml' },
+        { age: '6-12 bln', freq: '3-4x/hari', amount: '180-240 ml + MPASI' },
+        { age: '12-24 bln', freq: '3x/hari', amount: '200-250 ml + makanan keluarga' }
+      ],
+      calculate: function(weight, isBreastfeeding) {
+        if (isBreastfeeding) return { type: 'ASI', freq: '8-12x/hari', onDemand: true };
+        const total = weight * 110;
+        const perFeed = total / 6;
+        return { type: 'Susu formula', total: total, perFeed: Math.round(perFeed) };
+      }
+    };
+
+    function initFeedingModule() {
+      showModulePlaceholder('feeding', '🍼', 'Kalkulator Susu/Makanan', 'Hitung kebutuhan susu dan MPASI');
+    }
+
+    // 5. Referral Criteria Module
+    const REFERRAL_DATA = {
+      criteria: [
+        { condition: 'Demam > 48 jam', action: 'Rujuk jika tidak responsif terhadap antipiretik' },
+        { condition: 'Diare dengan dehidrasi', action: 'Rujuk jika ada tanda dehidrasi berat' },
+        { condition: 'Pneumonia', action: 'Rujuk jika ada tanda bahaya' },
+        { condition: 'Anemia berat', action: 'Rujuk jika Hb < 7 g/dL dengan gejala' },
+        { condition: 'Gizi buruk', action: 'Rujuk sesuai protokol MTBS' },
+        { condition: 'Perkembangan abnormal', action: 'Rujuk ke dokter spesialis anak' },
+        { condition: 'Jejas (trauma)', action: 'Rujuk ke fasilitas bedah jika diperlukan' },
+        { condition: 'Alergi berat', action: 'Rujuk untuk evaluasi anafilaksis' }
+      ]
+    };
+
+    function initReferralModule() {
+      showModulePlaceholder('referral', '🏥', 'Kriteria Rujukan', 'Panduan kriteria rujukan pasien');
+    }
+
+    // 6. Allergy Tracker Module
+    const allergyTracker = {
+      allergies: [],
+      add: function(allergen, reaction, severity) { this.allergies.push({ allergen, reaction, severity, date: new Date() }); },
+      remove: function(index) { this.allergies.splice(index, 1); },
+      getList: function() { return this.allergies; }
+    };
+
+    function initAllergyModule() {
+      showModulePlaceholder('allergy', '🚫', 'Pencatat Alergi', 'Catat dan lacak alergi pasien');
+    }
+
+    // 7. Vaccine Tracker Module
+    const VACCINE_DATA = {
+      schedule: [
+        { age: 'Lahir', vaccines: ['BCG', 'HB-0', 'Polio-0'] },
+        { age: '1 bulan', vaccines: ['HB-1', 'Polio-1'] },
+        { age: '2 bulan', vaccines: ['DPT-HB-Hib-1', 'Polio-2', 'PCV-1', 'Rota-1'] },
+        { age: '3 bulan', vaccines: ['DPT-HB-Hib-2', 'Polio-3', 'Rota-2'] },
+        { age: '4 bulan', vaccines: ['DPT-HB-Hib-3', 'Polio-4', 'PCV-2', 'Rota-3'] },
+        { age: '9 bulan', vaccines: ['Campak', 'MR-1', 'Yellow Fever'] },
+        { age: '12 bulan', vaccines: ['PCV-3', 'Japanese Encephalitis-1'] },
+        { age: '18 bulan', vaccines: ['DPT-HB-Hib booster', 'Polio booster', 'MR-2', 'Japanese Encephalitis-2'] }
+      ]
+    };
+
+    function initVaccineTrackerModule() {
+      showModulePlaceholder('vaccinetracker', '📅', 'Pelacak Imunisasi', 'Lacak riwayat imunisasi anak');
+    }
+
+    // 8. Medicine Interaction Module
+    const MED_INTERACT_DATA = {
+      interactions: [
+        { drugs: ['Paracetamol', 'Obat hepatotoksik'], level: 'Peringatan', desc: 'Peningkatan risiko kerusakan hati' },
+        { drugs: ['Ibuprofen', 'Kortikosteroid'], level: 'Peringatan', desc: 'Peningkatan risiko perdarahan GI' },
+        { drugs: ['Amoxicillin', 'Allopurinol'], level: 'Risiko', desc: 'Peningkatan risiko ruam kulit' },
+        { drugs: ['Antibiotik', 'Probiotik'], level: 'Perhatian', desc: 'Berikan jarak 2 jam' },
+        { drugs: ['Fe', 'Tetrasiklin'], level: 'Kontraindikasi', desc: 'Serapan keduanya berkurang' }
+      ]
+    };
+
+    function initMedInteractModule() {
+      showModulePlaceholder('medinteract', '💬', 'Interaksi Obat', 'Cek interaksi antar obat');
+    }
+
+    // 9. Growth Velocity Module
+    const GROWTH_VELOCITY_DATA = {
+      data: { '0-3': { weight: 0.75, length: 3.25 }, '3-6': { weight: 0.5, length: 2 }, '6-12': { weight: 0.35, length: 1.25 }, '12-24': { weight: 0.25, length: 1 }, '24-36': { weight: 0.2, length: 0.75 } },
+      calculate: function(currentWeight, previousWeight, monthsDiff) { const weightGain = currentWeight - previousWeight; return weightGain / monthsDiff; }
+    };
+
+    function initGrowthVelocityModule() {
+      showModulePlaceholder('growthvelocity', '📈', 'Kecepatan Pertumbuhan', 'Hitung kecepatan pertumbuhan anak');
+    }
+
+    // 10. Resuscitation Module
+    const RESUSCITATION_DATA = {
+      steps: [
+        { step: 1, title: 'Penilaian', desc: 'Periksa kesadaran, pernapasan, dan Circulation' },
+        { step: 2, title: 'Panggil Bantuan', desc: 'Segera hubungi tim medis' },
+        { step: 3, title: 'Buka Jalan Napas', desc: 'Head tilt, chin lift atau jaw thrust' },
+        { step: 4, title: 'Ventilasi', desc: 'Berikan napas buatan 2x' },
+        { step: 5, title: 'Kompresi', desc: '30 kompresi : 2 ventilasi' },
+        { step: 6, title: 'Evaluasi', desc: 'Periksa kembali setelah 2 menit' }
+      ],
+      ratios: { infant: { compression: 30, ventilation: 2, rate: 100 }, child: { compression: 30, ventilation: 2, rate: 100 }, adult: { compression: 30, ventilation: 2, rate: 100 } }
+    };
+
+    function initResuscitationModule() {
+      showModulePlaceholder('resuscitation', '🚑', 'Bantuan Hidup Dasar', 'Panduan resusitasi kardiorespiratori');
+    }
+
+    // Register all new modules
+    ModuleRegistry.register({ name: 'vitals', init: initVitalsModule, label: 'Tanda Vital Referensi', icon: '❤️' });
+    ModuleRegistry.register({ name: 'nutrition', init: initNutritionModule, label: 'Kalkulator Gizi', icon: '🥗' });
+    ModuleRegistry.register({ name: 'milestone', init: initMilestoneModule, label: 'Tonggak Perkembangan', icon: '🎯' });
+    ModuleRegistry.register({ name: 'feeding', init: initFeedingModule, label: 'Kalkulator Susu/Makanan', icon: '🍼' });
+    ModuleRegistry.register({ name: 'referral', init: initReferralModule, label: 'Kriteria Rujukan', icon: '🏥' });
+    ModuleRegistry.register({ name: 'allergy', init: initAllergyModule, label: 'Pencatat Alergi', icon: '🚫' });
+    ModuleRegistry.register({ name: 'vaccinetracker', init: initVaccineTrackerModule, label: 'Pelacak Imunisasi', icon: '📅' });
+    ModuleRegistry.register({ name: 'medinteract', init: initMedInteractModule, label: 'Interaksi Obat', icon: '💬' });
+    ModuleRegistry.register({ name: 'growthvelocity', init: initGrowthVelocityModule, label: 'Kecepatan Pertumbuhan', icon: '📈' });
+    ModuleRegistry.register({ name: 'resuscitation', init: initResuscitationModule, label: 'Bantuan Hidup Dasar', icon: '🚑' });
+
+    // ==================== HELPER FUNCTIONS ====================
     function closeSidebarMobile() {
       $('#sidebar').removeClass('open');
       $('#overlay').removeClass('active');
@@ -1812,73 +2074,25 @@
       $('#hamburger').removeClass('active');
     }
 
-    // ==================== EXISTING MODULES ====================
-    // Register existing modules with the new system
-    ModuleRegistry.register({
-      name: 'anemia',
-      init: function() { initAnemiaModule(); },
-      label: 'Skrining Anemia (Hb)',
-      icon: '🩸'
-    });
+    function showModulePlaceholder(moduleName, icon, title, desc) {
+      $('#placeholderIcon').text(icon);
+      $('#placeholderTitle').text(title);
+      $('#placeholderDesc').text(desc + '. Fitur ini akan segera hadir.');
+      $('#modulePlaceholder').show();
+    }
 
-    ModuleRegistry.register({
-      name: 'drug',
-      init: function() { initDrugModule(); },
-      label: 'Kalkulator Dosis Obat Anak',
-      icon: '💊'
-    });
+    function showModule(moduleName) {
+      if (ModuleRegistry.has(moduleName)) { ModuleRegistry.init(moduleName); }
+      var content = $('.main-content').find('.' + moduleName + '-content');
+      if (content.length > 0) { content.show().addClass('active'); }
+    }
 
-    ModuleRegistry.register({
-      name: 'dehydration',
-      init: function() { initDehydrationModule(); },
-      label: 'Skrining Dehidrasi & Diare',
-      icon: '💧'
-    });
-
-    ModuleRegistry.register({
-      name: 'immunization',
-      init: function() { initImmunizationModule(); },
-      label: 'Imunisasi',
-      icon: '💉'
-    });
-
-    ModuleRegistry.register({
-      name: 'fever',
-      init: function() { initFeverModule(); },
-      label: 'Kalkulator Status Demam',
-      icon: '🌡️'
-    });
-
-    ModuleRegistry.register({
-      name: 'bmi',
-      init: function() { initBMIModule(); },
-      label: 'BMI & Risiko Metabolik',
-      icon: '⚖️'
-    });
-
-    ModuleRegistry.register({
-      name: 'fluid',
-      init: function() { initFluidModule(); },
-      label: 'Cairan Maintenance (Holliday–Segar)',
-      icon: '🧪'
-    });
-
-    ModuleRegistry.register({
-      name: 'risk',
-      init: function() { initRiskModule(); },
-      label: 'Skor Risiko (Rule-based)',
-      icon: '⚠️'
-    });
-
-    ModuleRegistry.register({
-      name: 'education',
-      init: function() { initEducationModule(); },
-      label: 'Generator Edukasi Pasien (PDF)',
-      icon: '📄'
-    });
+    function hideAllModules() {
+      $('.main-content').find('[class*="-content"]').each(function() { $(this).hide().removeClass('active'); });
+      $('#modulePlaceholder').hide();
+    }
 
     // ==================== SIDEBAR FUNCTIONALITY ====================
-    // Sidebar toggle functionality
     $(document).ready(function() {
       var $hamburger = $('#hamburger');
       var $sidebar = $('#sidebar');
@@ -1897,140 +2111,55 @@
       }
 
       $hamburger.on('click', function() {
-        if ($sidebar.hasClass('open')) {
-          closeSidebar();
-          $hamburger.removeClass('active');
-        } else {
-          openSidebar();
-          $hamburger.addClass('active');
-        }
+        if ($sidebar.hasClass('open')) { closeSidebar(); $hamburger.removeClass('active'); }
+        else { openSidebar(); $hamburger.addClass('active'); }
       });
 
-      $overlay.on('click', function() {
-        closeSidebar();
-      });
+      $overlay.on('click', function() { closeSidebar(); });
 
-      // Menu navigation using module registry
       $('.menu-item').on('click', function(e) {
         e.preventDefault();
         $('.menu-item').removeClass('active');
         $(this).addClass('active');
-        
         var module = $(this).data('module');
-        
-        // Use unified module switching
         switchModule(module);
-        
-        if ($(window).width() < 1024) {
-          closeSidebarMobile();
-        }
+        if ($(window).width() < 1024) { closeSidebarMobile(); }
       });
 
-      // Unified module switching function
       function switchModule(module) {
         hideAllModules();
-        
         switch(module) {
           case 'growth':
-            $('#growthContent').show();
+            $('#growthContent').show().addClass('active');
             break;
-            
           case 'kpsp':
             $('#kpspContent').show().addClass('active');
-            if (!kpspInitialized) {
-              initKPSP();
-            }
+            if (!kpspInitialized) { initKPSP(); }
             break;
-            
           default:
-            // Check if module is registered, if not show placeholder
-            if (ModuleRegistry.has(module)) {
-              ModuleRegistry.init(module);
-              showModule(module);
-            } else {
-              showModulePlaceholder(module);
-            }
+            if (ModuleRegistry.has(module)) { ModuleRegistry.init(module); showModule(module); }
+            else { showModulePlaceholder(module, '🚧', 'Modul Baru', 'Modul dalam pengembangan'); }
             break;
         }
       }
 
-      // Show module placeholder for modules under development
-      function showModulePlaceholder(module) {
-        var moduleInfo = {
-          'anemia': { icon: '🩸', title: 'Skrining Anemia (Hb)', desc: 'Menentukan status anemia berdasarkan kadar Hb anak' },
-          'drug': { icon: '💊', title: 'Kalkulator Dosis Obat Anak', desc: 'Menghitung dosis obat yang tepat berdasarkan berat badan anak' },
-          'dehydration': { icon: '💧', title: 'Skrining Dehidrasi & Diare', desc: 'Menilai tingkat dehidrasi dan menentukan penanganan' },
-          'immunization': { icon: '💉', title: 'Imunisasi', desc: 'Jadwal imunisasi dan pencatatan vaccine' },
-          'fever': { icon: '🌡️', title: 'Kalkulator Status Demam', desc: 'Menilai dan mengkalkulasi penanganan demam' },
-          'bmi': { icon: '⚖️', title: 'BMI & Risiko Metabolik', desc: 'Menghitung BMI dan menilai risiko metabolik' },
-          'fluid': { icon: '🧪', title: 'Cairan Maintenance', desc: 'Kalkulator cairan maintenance (Holliday–Segar)' },
-          'risk': { icon: '⚠️', title: 'Skor Risiko (Rule-based)', desc: 'Penilaian risiko berdasarkan rule-based system' },
-          'education': { icon: '📄', title: 'Generator Edukasi Pasien', desc: 'Generator materi edukasi pasien dalam format PDF' }
-        };
-        
-        var info = moduleInfo[module] || { icon: '🚧', title: 'Modul Baru', desc: 'Modul dalam pengembangan' };
-        
-        $('#placeholderIcon').text(info.icon);
-        $('#placeholderTitle').text(info.title);
-        $('#placeholderDesc').text(info.desc + '. Fitur ini akan segera hadir.');
-        $('#modulePlaceholder').show();
-      }
-
-      // Initialize all modules on page load
-      var moduleInstances = {};
-
-      function showModule(moduleName) {
-        // Try to initialize module from registry first
-        if (ModuleRegistry.has(moduleName)) {
-          ModuleRegistry.init(moduleName);
-        }
-        
-        // Show the module content
-        var content = $('.main-content').find('.' + moduleName + '-content');
-        if (content.length > 0) {
-          content.show();
-        }
-      }
-
-      function hideAllModules() {
-        $('.main-content').find('[class*="-content"]').each(function() {
-          $(this).hide().removeClass('active');
-        });
-        $('#modulePlaceholder').hide();
-      }
-
-      // Close sidebar on window resize to desktop
       $(window).on('resize', function() {
-        if ($(window).width() >= 1024) {
-          closeSidebar();
-          $hamburger.removeClass('active');
-        }
+        if ($(window).width() >= 1024) { closeSidebar(); $hamburger.removeClass('active'); }
       });
 
-      // Position toggle functionality
       var isStanding = false;
       $('#position-toggle').on('click', function() {
         isStanding = !isStanding;
         $(this).toggleClass('active');
-        if (isStanding) {
-          $('#position-label').text('Tinggi badan (berdiri)');
-        } else {
-          $('#position-label').text('Panjang badan (telentang)');
-        }
+        $('#position-label').text(isStanding ? 'Tinggi badan (berdiri)' : 'Panjang badan (telentang)');
       });
 
-      // Form validation for growth
       function validateForm() {
         var isValid = true;
-        var age = parseFloat($('#age').val());
         var weight = parseFloat($('#bb').val());
         var height = parseFloat($('#tb').val());
-
-        // Reset errors
         $('.form-field input, .form-field select').removeClass('error');
         $('.error-message').removeClass('visible');
-
-        // Validate weight
         if (isNaN(weight) || weight <= 0) {
           $('#bb').addClass('error');
           $('#weight-error').text('Masukkan berat badan yang valid').addClass('visible');
@@ -2040,8 +2169,6 @@
           $('#weight-error').text('Berat badan terlalu tinggi').addClass('visible');
           isValid = false;
         }
-
-        // Validate height
         if (isNaN(height) || height <= 0) {
           $('#tb').addClass('error');
           $('#height-error').text('Masukkan tinggi/panjang badan yang valid').addClass('visible');
@@ -2051,26 +2178,18 @@
           $('#height-error').text('Nilai di luar rentang normal (30-150 cm)').addClass('visible');
           isValid = false;
         }
-
         return isValid;
       }
 
-      // Override button click to include validation
       $('#but').on('click', function(e) {
         e.preventDefault();
         if (validateForm()) {
-          // Clear errors and proceed
           $('.form-field input, .form-field select').removeClass('error');
           $('.error-message').removeClass('visible');
-          
-          // Trigger the original interpret function
-          if (typeof interpret === 'function' && dataReady) {
-            interpret();
-          }
+          if (typeof interpret === 'function' && dataReady) { interpret(); }
         }
       });
 
-      // Real-time validation on input change
       $('#bb, #tb').on('input', function() {
         $(this).removeClass('error');
         $(this).siblings('.error-message').removeClass('visible');
@@ -2083,251 +2202,120 @@
 
       function initKPSP() {
         if (kpspInitialized) return;
-        
-        // Populate age dropdown
         var ageSelect = $('#kpsp-age');
         KPSP_DATA.ageGroups.forEach(function(group) {
-          var option = $('<option>')
-            .attr('value', group.minAge)
-            .text(group.label);
+          var option = $('<option>').attr('value', group.minAge).text(group.label);
           ageSelect.append(option);
         });
-
-        // Age change handler
-        ageSelect.on('change', function() {
-          $('#kpsp-age-error').removeClass('visible');
-        });
-
-        // Start screening button
+        ageSelect.on('change', function() { $('#kpsp-age-error').removeClass('visible'); });
         $('#kpsp-start').on('click', function() {
           var selectedAge = parseInt($('#kpsp-age').val());
           if (!selectedAge && selectedAge !== 0) {
             $('#kpsp-age-error').text('Silakan pilih umur anak terlebih dahulu').addClass('visible');
             return;
           }
-          
           currentAgeGroup = getAgeGroup(selectedAge);
-          if (currentAgeGroup) {
-            showKPSPQuestions(currentAgeGroup);
-          }
+          if (currentAgeGroup) { showKPSPQuestions(currentAgeGroup); }
         });
-
-        // Submit button
-        $('#kpsp-submit').on('click', function() {
-          calculateKPSPResult();
-        });
-
+        $('#kpsp-submit').on('click', function() { calculateKPSPResult(); });
         kpspInitialized = true;
       }
 
       function showKPSPQuestions(ageGroup) {
-        // Update UI
         $('#kpsp-age-label').text(ageGroup.label);
         $('#kpsp-start-container').hide();
         $('#kpsp-questionnaire').addClass('active');
         $('#kpsp-result').removeClass('active');
         $('#kpsp-info-box').show();
-        
-        // Clear previous answers
         kpspAnswers = {};
         updateKPSPProgress();
-
-        // Generate questions
         var questionList = $('#kpsp-question-list');
         questionList.empty();
-
         ageGroup.questions.forEach(function(q, index) {
           var questionItem = $('<div>').addClass('kpsp-question-item');
-          
-          var categoryBadge = $('<span>')
-            .addClass('kpsp-category-badge')
-            .text(q.category);
-          
-          var questionText = $('<div>')
-            .addClass('kpsp-question-text')
-            .html('<span class="kpsp-question-number">' + (index + 1) + '</span>' + q.text);
-          
+          var categoryBadge = $('<span>').addClass('kpsp-category-badge').text(q.category);
+          var questionText = $('<div>').addClass('kpsp-question-text').html('<span class="kpsp-question-number">' + (index + 1) + '</span>' + q.text);
           var answerGroup = $('<div>').addClass('kpsp-answer-group');
-          
-          // Yes option
           var yesOption = $('<div>').addClass('kpsp-answer-option');
-          var yesInput = $('<input>')
-            .attr({
-              type: 'radio',
-              name: 'q' + index,
-              id: 'q' + index + '-yes',
-              value: 'yes'
-            })
-            .on('change', function() {
-              kpspAnswers[index] = 'yes';
-              updateKPSPProgress();
-            });
-          var yesLabel = $('<label>')
-            .addClass('yes')
-            .attr('for', 'q' + index + '-yes')
-            .html('✓ Ya');
+          var yesInput = $('<input>').attr({ type: 'radio', name: 'q' + index, id: 'q' + index + '-yes', value: 'yes' }).on('change', function() { kpspAnswers[index] = 'yes'; updateKPSPProgress(); });
+          var yesLabel = $('<label>').addClass('yes').attr('for', 'q' + index + '-yes').html('✓ Ya');
           yesOption.append(yesInput, yesLabel);
-          
-          // No option
           var noOption = $('<div>').addClass('kpsp-answer-option');
-          var noInput = $('<input>')
-            .attr({
-              type: 'radio',
-              name: 'q' + index,
-              id: 'q' + index + '-no',
-              value: 'no'
-            })
-            .on('change', function() {
-              kpspAnswers[index] = 'no';
-              updateKPSPProgress();
-            });
-          var noLabel = $('<label>')
-            .addClass('no')
-            .attr('for', 'q' + index + '-no')
-            .html('✗ Tidak');
+          var noInput = $('<input>').attr({ type: 'radio', name: 'q' + index, id: 'q' + index + '-no', value: 'no' }).on('change', function() { kpspAnswers[index] = 'no'; updateKPSPProgress(); });
+          var noLabel = $('<label>').addClass('no').attr('for', 'q' + index + '-no').html('✗ Tidak');
           noOption.append(noInput, noLabel);
-          
           answerGroup.append(yesOption, noOption);
           questionItem.append(categoryBadge, questionText, answerGroup);
           questionList.append(questionItem);
         });
-
-        // Update summary text
         $('#kpsp-summary-text').text('Jawab 10 pertanyaan untuk kelompok umur ' + ageGroup.label + '.');
       }
 
       function updateKPSPProgress() {
         var answered = Object.keys(kpspAnswers).length;
         var progress = (answered / 10) * 100;
-        
         $('#kpsp-progress-fill').css('width', progress + '%');
         $('#kpsp-progress-text').text(answered + '/10');
       }
 
       function calculateKPSPResult() {
-        // Check if all questions are answered
-        if (Object.keys(kpspAnswers).length < 10) {
-          alert('Silakan jawab semua pertanyaan terlebih dahulu.');
-          return;
-        }
-
-        // Count yes answers
+        if (Object.keys(kpspAnswers).length < 10) { alert('Silakan jawab semua pertanyaan terlebih dahulu.'); return; }
         var yesCount = 0;
-        for (var key in kpspAnswers) {
-          if (kpspAnswers[key] === 'yes') {
-            yesCount++;
-          }
-        }
-
-        // Get interpretation
+        for (var key in kpspAnswers) { if (kpspAnswers[key] === 'yes') { yesCount++; } }
         var result = calculateKPSPResultFromCount(yesCount);
-
-        // Update result display
         $('#kpsp-yes-count').text(yesCount);
         $('#kpsp-status-text').text(result.label);
         $('#kpsp-result-description').text(result.description);
         $('#kpsp-advice-text').text(result.advice);
-
-        // Update status styling
         var statusEl = $('#kpsp-result-status');
         statusEl.removeClass('normal suspect abnormal');
-        
-        if (yesCount >= 9) {
-          statusEl.addClass('normal');
-          $('#kpsp-status-icon').text('✓');
-        } else if (yesCount >= 7) {
-          statusEl.addClass('suspect');
-          $('#kpsp-status-icon').text('⚠');
-        } else {
-          statusEl.addClass('abnormal');
-          $('#kpsp-status-icon').text('✗');
-        }
-
-        // Update category breakdown
+        if (yesCount >= 9) { statusEl.addClass('normal'); $('#kpsp-status-icon').text('✓'); }
+        else if (yesCount >= 7) { statusEl.addClass('suspect'); $('#kpsp-status-icon').text('⚠'); }
+        else { statusEl.addClass('abnormal'); $('#kpsp-status-icon').text('✗'); }
         updateCategoryBreakdown();
-
-        // Show result
         $('#kpsp-result').addClass('active');
         $('#kpsp-info-box').hide();
-
-        // Update summary
         $('#kpsp-summary-text').text('Hasil skrining: ' + result.label + ' (' + yesCount + '/10 Ya)');
-
-        // Scroll to result
-        $('html, body').animate({
-          scrollTop: $('#kpsp-result').offset().top - 100
-        }, 500);
+        $('html, body').animate({ scrollTop: $('#kpsp-result').offset().top - 100 }, 500);
       }
 
       function calculateKPSPResultFromCount(yesCount) {
-        if (yesCount >= 9) {
-          return KPSP_DATA.interpretation.normal;
-        } else if (yesCount >= 7) {
-          return KPSP_DATA.interpretation.suspect;
-        } else {
-          return KPSP_DATA.interpretation.abnormal;
-        }
+        if (yesCount >= 9) return KPSP_DATA.interpretation.normal;
+        else if (yesCount >= 7) return KPSP_DATA.interpretation.suspect;
+        else return KPSP_DATA.interpretation.abnormal;
       }
 
       function updateCategoryBreakdown() {
         var categories = {};
-        
         if (currentAgeGroup) {
           currentAgeGroup.questions.forEach(function(q, index) {
-            if (!categories[q.category]) {
-              categories[q.category] = { total: 0, yes: 0 };
-            }
+            if (!categories[q.category]) { categories[q.category] = { total: 0, yes: 0 }; }
             categories[q.category].total++;
-            if (kpspAnswers[index] === 'yes') {
-              categories[q.category].yes++;
-            }
+            if (kpspAnswers[index] === 'yes') { categories[q.category].yes++; }
           });
         }
-
         var breakdownHtml = '';
         for (var category in categories) {
           var cat = categories[category];
-          breakdownHtml += '<div class="kpsp-category-item">';
-          breakdownHtml += '<span class="kpsp-category-name">' + category + '</span>';
-          breakdownHtml += '<span class="kpsp-category-score">' + cat.yes + '/' + cat.total + '</span>';
-          breakdownHtml += '</div>';
+          breakdownHtml += '<div class="kpsp-category-item"><span class="kpsp-category-name">' + category + '</span><span class="kpsp-category-score">' + cat.yes + '/' + cat.total + '</span></div>';
         }
-
         $('#kpsp-category-breakdown').html(breakdownHtml);
       }
 
-      // ==================== HOW TO ADD NEW MODULES ====================
-      // Example: Adding a new module called "newmodule"
-      //
-      // 1. Add the menu item in HTML:
-      //    <a href="#" class="menu-item" data-module="newmodule">
-      //      <span class="menu-icon">🔧</span>
-      //      <span class="menu-label">Nama Modul Baru</span>
-      //    </a>
-      //
-      // 2. Register the module (after ModuleRegistry definition):
-      //    ModuleRegistry.register({
-      //      name: 'newmodule',
-      //      init: function() { 
-      //        // Your module initialization code here
-      //      },
-      //      label: 'Nama Modul Baru',
-      //      icon: '🔧',
-      //      description: 'Deskripsi modul'
-      //    });
-      //
-      // 3. Add module info to showModulePlaceholder function:
-      //    'newmodule': { 
-      //      icon: '🔧', 
-      //      title: 'Nama Modul Baru', 
-      //      desc: 'Deskripsi fitur' 
-      //    }
-      //
-      // 4. Optionally add CSS styles for your module elements
-      //
-      // The module will automatically appear in the sidebar and 
-      // the switchModule function will handle showing/hiding content.
+      // Keyboard accessibility
+      $(document).on('keydown', function(e) { if (e.key === 'Escape' && $('#sidebar').hasClass('open')) { closeSidebarMobile(); } });
 
+      // Swipe support for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      document.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; });
+      document.addEventListener('touchend', function(e) { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        if (diff > swipeThreshold && !$('#sidebar').hasClass('open')) { $('#sidebar').addClass('open'); $('#overlay').addClass('active'); $('body').css('overflow', 'hidden'); $('#hamburger').addClass('active'); }
+        else if (diff < -swipeThreshold && $('#sidebar').hasClass('open')) { closeSidebarMobile(); }
+      }
     });
   </script>
 </body>
